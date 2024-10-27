@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CooksConfig(AppConfig):
+class ThemesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Cooks'
+    name = 'themes'
