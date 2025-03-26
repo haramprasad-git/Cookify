@@ -491,6 +491,7 @@ body {
   font-family: "Noto Sans";
   font-size: 15px;
 }
+
 @-moz-keyframes floating {
   0% {
     -webkit-transform: rotate(0deg) translate(-10px) rotate(0deg);

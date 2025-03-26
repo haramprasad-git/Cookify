@@ -10,14 +10,6 @@
         });
     });
 
-    // :: 2.0 Newsticker Active Code
-    $.simpleTicker($("#breakingNewsTicker"), {
-        speed: 1250,
-        delay: 3500,
-        easing: 'swing',
-        effectType: 'roll'
-    });
-
     // :: 3.0 Nav Active Code
     if ($.fn.classyNav) {
         $('#deliciousNav').classyNav();
@@ -126,12 +118,33 @@
         $('select').niceSelect();
     }
 
-    // :: 10.0 wow Active Code
+    // :: 10.0 Like Active Code
+    var like_btn = $('.like-btn');
+    like_btn.on('click', function () {
+        like_btn.toggleClass('fa-heart-o');
+        like_btn.toggleClass('fa-heart');
+    });
+
+    // :: 11.0 Rating Star Active Code
+    var stars = $('.real-time-rating i');
+    stars.on('click', function () {
+        var clicked = $(this).index();
+
+        stars.each(function (i) {
+            if (i <= clicked) {
+                $(this).removeClass("fa-star-o").addClass("fa-star");
+            } else {
+                $(this).removeClass("fa-star").addClass("fa-star-o");
+            }
+        });
+    });
+
+    // :: 12.0 wow Active Code
     if (browserWindow.width() > 767) {
         new WOW().init();
     }
 
-    // :: 11.0 prevent default a click
+    // :: 13.0 prevent default a click
     $('a[href="#"]').click(function ($) {
         $.preventDefault()
     });

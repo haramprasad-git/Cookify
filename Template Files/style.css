@@ -37,7 +37,7 @@ h6 {
   font-weight: 600; }
 
 p {
-  color: #9b9b9b;
+  color: #666;
   font-size: 14px;
   line-height: 2;
   font-weight: 400; }
@@ -249,6 +249,17 @@ img {
   position: absolute;
   top: 0;
   right: -30px; }
+
+.comment-container {
+  border: 1px solid gray;
+  border-radius: 5px; 
+  left: 1em }
+
+.comment-container .commenter {
+  font-weight: bold;
+  /* font-family: Georgia, 'Times New Roman', Times, serif; */
+}
+
   @media only screen and (min-width: 768px) and (max-width: 991px) {
     .mfp-image-holder .mfp-close,
     .mfp-iframe-holder .mfp-close {
@@ -556,11 +567,13 @@ textarea:focus {
       position: relative;
       z-index: 1;
       padding: 60px 50px;
+      margin-left: 100px;
       border-left: 3px solid #40ba37;
       background-color: rgba(24, 24, 24, 0.54); }
       @media only screen and (max-width: 767px) {
         .hero-slides .single-hero-slide .hero-slides-content {
-          padding: 30px 20px; } }
+          padding: 30px 20px;
+          margin-left: 0px; } }
       .hero-slides .single-hero-slide .hero-slides-content h2 {
         font-size: 30px;
         color: #ffffff;
@@ -1020,12 +1033,15 @@ textarea:focus {
     .receipe-headline .receipe-duration h6:last-child {
       margin-bottom: 0; }
 
-.receipe-ratings .ratings {
-  margin-bottom: 30px; }
 .receipe-ratings i {
   font-size: 18px;
   color: #fbb710;
   padding: 0 3px; }
+
+i.like-btn {
+  font-size: 30px;
+  color: red;
+}
 
 .single-preparation-step {
   position: relative;
