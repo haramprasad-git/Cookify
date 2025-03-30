@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="./css/style.css">
+      <link rel="stylesheet" href="./css/profile-page.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <title>Cook Profile</title>
    </head>
@@ -13,16 +13,18 @@
          <div class="profile-page">
             <div class="content">
               <div class="content__cover">
-                <div class="content__avatar"></div>
+                <div class="content__avatar">
+                  <!-- <img src="img/blog-img/1.jpg" alt="Profile Picture"> -->
+                </div>
                 <div class="content__bull"><span></span><span></span><span></span><span></span><span></span>
                 </div>
               </div>
               <div class="content__actions">
-                <a href="">
+                <a href="" title="Edit Profile">
                   <i class="fa-solid fa-pen-to-square"></i>&nbsp;
                   <span>Edit Profile</span>
                 </a>
-                <a href="">
+                <a href="" title="My Kitchen Book">
                   <i class="fa-solid fa-book-open"></i>&nbsp;
                   <span>My Kitchen Book</span>
                 </a>
@@ -31,15 +33,16 @@
                 <h1 style="color: rgba(0, 0, 0, 0.8);">Name</h1><span>@username</span>
               </div>
               <ul class="content__list">
-                <li><span>65</span>Followers</li>
-                <li><span>43</span>Recepies Posted</li>
-                <li><span>21</span>Average Rating</li>
+                <li><a href="#"><span>65</span>Followers</a></li>
+                <li><a href="#"><span>23</span>Recipes Posted</a></li>
+                <li><span>4.5</span>Average Rating</li>
               </ul>
               <ul class="social_media_accounts content__list">
                 <li><i class="fa-brands fa-instagram fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@instagram</a></i></li>
                 <li><i class="fa-brands fa-square-facebook fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@facebook</a></i></li>
                 <li><i class="fa-brands fa-x-twitter fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@twitter</a></i></li>
                 <li><i class="fa-brands fa-threads fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@threads</a></i></li>
+                <li><button class="logout-btn">Log Out</button></li>
               </ul>
             </div>
             <div class="bg">
