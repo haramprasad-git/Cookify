@@ -111,23 +111,10 @@ input {
 input:first {
 	width: 45%;
 }
-input#profilePic {
-	display: none;
-}
-label.fake-profilePic {
-	width: 45%;
+label.fake-file-input {
 	background-color: #eee;
-	border: 2px solid #08D929;
-	padding: 12px 15px;
-	margin: 8px 0;
-	width: 100%;
-	text-align: start;
-	font-size: 0.8em;
-	color: #666;
-	font-family: sans-serif;
 }
-label.fake-profilePic i {
-	color: #08D929;
+label.fake-file-input i {
 	font-size: 1.4em;
 }
 .container {

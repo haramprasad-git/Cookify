@@ -1,0 +1,40 @@
+{% extends 'recipe/index.html' %}
+{% load static %}
+
+{% block meta-discription %}Add Recipe{% endblock %}
+{% block title %}Add Recipe{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/add-recipe.css' %}">
+{% endblock %}
+{% block main-body %}
+    <form action="{% url 'add_recipe' %}" method="post" enctype="multipart/form-data" class="form-container">
+        <h1>Add New Recipe</h1>
+        <span class="message">Add your special recipes so others can also enjoy</span>
+        <label for="title">Title of Recipe : </label>
+        <input type="text" name="title", id="title">
+
+        <input type="file" name="recipe-image", id="recipeImage">
+        <label for="recipeImage" class="fake-file-input">
+            <i class="fa fa-folder-open"></i>
+            Click to Add Image of Recipe(optional)
+        </label>
+
+        <label>Select the categories:</label>
+        <div class="multiple-inputs">
+            <div class="multiple-inputs-node">
+                <input type="checkbox" name="categories", id="5">
+                <label for="5">Breakfast</label>
+            </div>
+        </div>
+
+        <label>Select the veganity:</label>
+        <div class="multiple-inputs">
+            <div class="multiple-inputs-node">
+                <input type="radio" name="veganity", id="Veg">
+                <label for="Veg">Veg</label>
+            </div>
+        </div>
+
+        <textarea type="text" name="title", id="title" placeholder="Discribe the recipe(Use Enter to seperate steps)"></textarea>
+    </form>
+{% endblock %}

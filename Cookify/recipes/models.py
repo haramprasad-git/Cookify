@@ -19,7 +19,7 @@ class Recipe(models.Model):
 
     title = models.CharField(max_length=200)
     discription = models.TextField()
-    image = models.ImageField(upload_to='recipe_images/')
+    image = models.ImageField(upload_to='recipe_images/', null=True, blank=True)
     categories = models.ManyToManyField(Category, related_name='products') # eg. Dessert, Breakfast, etc.
     cook = models.ForeignKey(Cook, related_name='posts', on_delete=models.CASCADE) # The cook who posted the recipe
     veganity_status = models.IntegerField(choices=VEGANITY_CHOICES)

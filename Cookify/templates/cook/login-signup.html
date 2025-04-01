@@ -1,6 +1,6 @@
 {% extends '../recipe/index.html' %}
 {% load static %}
-{% block meta-content %}Login or Signup{% endblock %}
+{% block meta-discription %}Login or Signup{% endblock %}
 {% block title %}Login or Signup{% endblock %}
 {% block styles %}
 	<link rel="stylesheet" href="{% static 'css/login-signup.css' %}">
@@ -24,7 +24,7 @@
 				{% endif %}
 				<input type="text" name="name" placeholder="Name" />
 				<input type="file" accept=".jpg, .jpeg, .png, .gif" name="profile_pic" id="profilePic"/>
-				<label for="profilePic" class="fake-profilePic">
+				<label for="profilePic" class="fake-file-input">
 					<i class="fa fa-folder-open"></i>&nbsp;
 					<span>Click to Add Profile Picture (optional)</span>
 				</label>

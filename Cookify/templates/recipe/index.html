@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="{% block meta-content %}Home Page{% endblock %}">
+    <meta name="description" content="{% block meta-discription %}Home Page{% endblock %}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -13,7 +13,7 @@
     <title>Delicious - Food Blog Template | {% block title %}Home{% endblock %}</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ websetting.fevicon.url }}">
+    <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
 
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -26,7 +26,7 @@
     <!-- Preloader -->
     <div id="preloader">
         <i class="circle-preloader"></i>
-        <img src="{% static 'img/core-img/salad.png' %}" alt="">
+        <img src="{% static 'img/core-img/favicon.ico' %}" alt="">
     </div>
     {% block header %}
     <!-- Search Wrapper -->
@@ -64,7 +64,7 @@
                     <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
                         <!-- Logo -->
-                        <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                        <a class="nav-brand" href="index.html"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -85,8 +85,12 @@
                                     <li class="active"><a href="index.html">Home</a></li>
                                     <li><a href="receipe-post.html">Receipies</a></li>
                                     <li><a href="receipe-post.html">4 Vegans</a></li>
-                                    <li><a href="receipe-post.html">Profile</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    {% if request.user.is_authenticated %}
+                                        <li><a href="receipe-post.html">Profile</a></li>
+                                        <li><a href="contact.html">Contact</a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'login' %}">Login</a></li>
+                                    {% endif %}
                                 </ul>
 
                                 <!-- Newsletter Form -->
@@ -820,7 +824,7 @@
         <div class="insta-feeds d-flex flex-wrap">
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="img/bg-img/insta1.jpg" alt="">
+                <img src="{% static 'img/bg-img/insta1' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -829,7 +833,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="img/bg-img/insta2.jpg" alt="">
+                <img src="{% static 'img/bg-img/insta2' %}" s alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -838,7 +842,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="img/bg-img/insta3.jpg" alt="">
+                <img src="{% static 'img/bg-img/insta3' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -847,7 +851,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="img/bg-img/insta4.jpg" alt="">
+                <img src="{% static 'img/bg-img/insta4' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -856,7 +860,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="img/bg-img/insta5.jpg" alt="">
+                <img src="{% static 'img/bg-img/insta5' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -865,7 +869,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="img/bg-img/insta6.jpg" alt="">
+                <img src="{% static 'img/bg-img/insta6' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -874,7 +878,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="img/bg-img/insta7.jpg" alt="">
+                <img src="{% static 'img/bg-img/insta7' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -900,7 +904,7 @@
                     </div>
                     <!-- Footer Logo -->
                     <div class="footer-logo">
-                        <a href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                        <a href="{% url 'home' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
                     </div>
                     <!-- Copywrite -->
                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
