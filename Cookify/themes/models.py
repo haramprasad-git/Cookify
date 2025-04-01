@@ -4,6 +4,6 @@ from django.db import models
 
 # Model to track settings of the website
 class WebSetting(models.Model):
-    banner = models.ImageField(upload_to='media/logos')
-    fevicon = models.ImageField(upload_to='media/logos')
+    banner = models.ImageField(upload_to='logos/')
+    fevicon = models.ImageField(upload_to='logos/')
     tagline = models.TextField(max_length=200)

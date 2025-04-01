@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/login-signup.css">
+	<title>Edit Cook Profile</title>
+</head>
+<body>
+	<div class="container" id="container">
+		<div class="form-container sign-up-container">
+			<form action="#" id="editForm">
+				<h2>Change Email / Password</h2>
+				<span>Verify with your current password</span>
+				<input type="password" placeholder="Current Password" />
+				<input type="email" placeholder="New Email" />
+				<input type="password" placeholder="New Password" />
+				<button type="submit">Change</button>
+			</form>
+		</div>
+		<div class="form-container sign-in-container">
+			<form action="#">
+				<h1>Edit Profile</h1>
+				<span>Make Changes to Your Profile Data</span>
+				<input type="text" placeholder="Name" />
+                <input type="file" id="profilePic"/>
+				<label for="profilePic" class="fake-profilePic">
+					<i class="fa fa-folder-open"></i>&nbsp;
+					<span>Click to Change Profile Picture</span>
+				</label>
+				<a href="#" id="signUp">Change Email / Password ?</a>
+				<button type="submit">Save</button>
+			</form>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-left">
+					<h4 class="white" id="signIn"><i class="fa fa-arrow-left"></i>&nbsp;Back</h4>
+				</div>
+				<div class="overlay-panel overlay-right">
+					<form action="#" id="socialMediaForm" method="post">
+                        <h2>Add Social Media Accounts</h2>
+                        <input type="text" name="" placeholder="Instagram">
+                        <input type="text" name="" placeholder="Facebook">
+                        <input type="text" name="" placeholder="X">
+                        <input type="text" name="" placeholder="Threads">
+                    </form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/login-signup.js"></script>
+	<script src="https://kit.fontawesome.com/83968cc839.js" crossorigin="anonymous"></script>
+</body>
+</html>
