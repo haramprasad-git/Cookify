@@ -3,7 +3,6 @@ from typing import Iterable
 from PIL import Image
 from django.dispatch import receiver
 from django.db import models
-# from django.core.validators import validate_image_file_extension
 from django.contrib.auth.models import User
 from .validators import validate_file_size, validate_image_type
 

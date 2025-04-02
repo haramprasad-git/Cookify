@@ -17,14 +17,6 @@ signInButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
 
-fileInput.addEventListener('change', (event) => {
-	costomfileInput.children[1].innerHTML = "Click to Change Profile Picture";
-
- 	const fileInputIcon = costomfileInput.children[0];
-	fileInputIcon.classList.add("fa-check");
-	fileInputIcon.classList.remove("fa-folder-open");
-});
-
 if (socialMediaForm != undefined) {
 	editForm.addEventListener('submit', () => {
 		socialMediaForm.submit();

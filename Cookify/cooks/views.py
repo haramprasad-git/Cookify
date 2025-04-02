@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError, OperationalError
 from django.core.exceptions import ValidationError
@@ -14,7 +16,7 @@ def handle_error(request, message:str, show_msg:str):
         created_user = User.objects.get(pk=created_user_id)
         created_user.delete()
     messages.error(request, message, extra_tags=show_msg)
-    return redirect('../login')
+    return redirect(reverse('login'))
 
 # Create your views here.
 def login(request):
@@ -37,7 +39,10 @@ def login(request):
             return redirect(login)
         else:
             django_login(request, user)
-            return redirect('../')
+            next_url = request.POST.get('next', '')
+            if (not next_url) or (url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host())):
+                next_url = "../../"
+            return redirect(f"../../{next_url}")
         
 def signup(request):
     if not request.POST:
@@ -62,7 +67,10 @@ def signup(request):
             cook.save()
             KitchenBook.objects.create(owner=cook)
             django_login(request, user)
-            return redirect('../')
+            next_url = request.POST.get('next', '')
+            if (not next_url) or (url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host())):
+                next_url = "../../"
+            return redirect(f"../../{next_url}")
 
         except IntegrityError:
             return handle_error(request, 'Email already registered !', 'on_signup')

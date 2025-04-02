@@ -824,7 +824,7 @@
         <div class="insta-feeds d-flex flex-wrap">
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="{% static 'img/bg-img/insta1' %}" alt="">
+                <img src="{% static 'img/bg-img/insta1.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -833,7 +833,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="{% static 'img/bg-img/insta2' %}" s alt="">
+                <img src="{% static 'img/bg-img/insta2.jpg' %}" s alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -842,7 +842,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="{% static 'img/bg-img/insta3' %}" alt="">
+                <img src="{% static 'img/bg-img/insta3.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -851,7 +851,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="{% static 'img/bg-img/insta4' %}" alt="">
+                <img src="{% static 'img/bg-img/insta4.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -860,7 +860,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="{% static 'img/bg-img/insta5' %}" alt="">
+                <img src="{% static 'img/bg-img/insta5.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -869,7 +869,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="{% static 'img/bg-img/insta6' %}" alt="">
+                <img src="{% static 'img/bg-img/insta6.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -878,7 +878,7 @@
 
             <!-- Single Insta Feeds -->
             <div class="single-insta-feeds">
-                <img src="{% static 'img/bg-img/insta7' %}" alt="">
+                <img src="{% static 'img/bg-img/insta7.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -914,7 +914,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             </div>
         </div>
     </footer>
-    <!-- ##### Footer Area Start ##### -->
+    <!-- ##### Footer Area Ends ##### -->
+    <!-- ##### Add Recipe Button #####-->
+    <a href="{% url 'add_recipe' %}?next={{ request.path }}" class="add-recipe-btn" title="Add New Recipe">+</a>
+
     {% endblock %}
     <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->

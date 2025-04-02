@@ -101,7 +101,7 @@
     if ($.fn.scrollUp) {
         browserWindow.scrollUp({
             scrollSpeed: 1500,
-            scrollText: '<i class="fa fa-angle-up"></i>'
+            scrollText: '<i class="fa fa-angle-up" style="color:#fff;"></i>'
         });
     }
 
@@ -149,4 +149,19 @@
         $.preventDefault()
     });
 
-})(jQuery);
+    // :: 14.0 Change file input text once uploaded
+    const customFileInputs = document.getElementsByClassName('fake-file-input');
+    for (let i = 0; i < customFileInputs.length; i++) {
+        const customInput = customFileInputs[i];
+        
+        const realInput = document.getElementById(customInput.getAttribute('for'));
+        realInput.addEventListener('change', () => {
+            customInput.children[1].innerHTML = "Click to Change Profile Picture";
+        
+            const fileInputIcon = customInput.children[0];
+            fileInputIcon.classList.add("fa-check");
+            fileInputIcon.classList.remove("fa-folder-open");
+        });
+    }
+})
+(jQuery);
