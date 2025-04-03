@@ -86,3 +86,6 @@ def signup(request):
         
         except Exception as e:
             return handle_error(request, 'Sorry, Unexpected Error occured !', 'on_signup')
+        
+def show_profile(request):
+    return render(request, 'cook/profile-page.html')

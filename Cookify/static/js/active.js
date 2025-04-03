@@ -163,5 +163,10 @@
             fileInputIcon.classList.remove("fa-folder-open");
         });
     }
+
+    // :: 15.0 Alert on unauthentication
+    $('.alert-leave').click( (e) => {
+        $('.alert-container').hide();
+    });
 })
 (jQuery);

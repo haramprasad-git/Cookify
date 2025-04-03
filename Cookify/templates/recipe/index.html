@@ -1,4 +1,5 @@
 {% load static %}
+{% load all_below %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,11 +83,11 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li class="active"><a href="index.html">Home</a></li>
+                                    <li class="active"><a href="{% url 'home' %}">Home</a></li>
                                     <li><a href="receipe-post.html">Receipies</a></li>
                                     <li><a href="receipe-post.html">4 Vegans</a></li>
                                     {% if request.user.is_authenticated %}
-                                        <li><a href="receipe-post.html">Profile</a></li>
+                                        <li><a href="profile-page.html">Profile</a></li>
                                         <li><a href="contact.html">Contact</a></li>
                                     {% else %}
                                         <li><a href="{% url 'login' %}">Login</a></li>
@@ -109,686 +110,157 @@
     <!-- ##### Header Area End ##### -->
     {% endblock %}
     {% block main-body %}
-    <!-- ##### Hero Area Start ##### -->
-    <section class="hero-area">
-        <div class="hero-slides owl-carousel">
-            <!-- Single Hero Slide -->
-            <div class="single-hero-slide bg-img" style="background-image: url(img/bg-img/bg1.jpg);">
-                <div class="container h-100">
-                    <div class="row h-100 align-items-center">
-                        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
-                                <h2 data-animation="fadeInUp" data-delay="300ms">Delicios Homemade Burger</h2>
-                                <a href="#" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
+    {% if carousel_recipes %}
+        <!-- ##### Hero Area Start ##### -->
+        <section class="hero-area">
+            <div class="hero-slides owl-carousel">
+                {% for recipe in carousel_recipes %}
+                    <!-- Single Hero Slide -->
+                    <div class="single-hero-slide bg-img" style="background-image: url('{{ recipe.image.url}}');">
+                        <div class="container h-100">
+                            <div class="row h-100 align-items-center">
+                                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                                    <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                                        <h2 data-animation="fadeInUp" data-delay="300ms">{{ recipe.title }}</h2>
+                                        <a href="{% url 'recipe_post' %}?id={{ recipe.id }}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+        </section>
+        <!-- ##### Hero Area End ##### -->
+    {% endif %}
+    {% if top_category %}
+        <!-- ##### Top Catagory Area Start ##### -->
+        <section class="top-catagory-area section-padding-80-0">
+            <div class="container">
+                <div class="row">
+                    {% for recipe in top_category %}
+                        <!-- Top Catagory Area -->
+                        <div class="col-12 col-lg-6">
+                            <div class="single-top-catagory">
+                                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                                <!-- Content -->
+                                <div class="top-cta-content">
+                                    <h3>{{ recipe.title }}</h3>
+                                    <h6>Simple &amp; Delicios</h6>
+                                    <a href="{% url 'recipe_post' %}?id={{ recipe.id }}" class="btn delicious-btn">See Full Receipe</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-
-            <!-- Single Hero Slide -->
-            <div class="single-hero-slide bg-img" style="background-image: url(img/bg-img/bg6.jpg);">
-                <div class="container h-100">
-                    <div class="row h-100 align-items-center">
-                        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
-                                <h2 data-animation="fadeInUp" data-delay="300ms">Delicios Homemade Burger</h2>
-                                <a href="#" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
-                            </div>
+        </section>
+        <!-- ##### Top Catagory Area End ##### -->
+    {% endif %}
+    {% if best_recipes %}
+        <!-- ##### Best Receipe Area Start ##### -->
+        <section class="best-receipe-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-heading">
+                            <h3>The Best Receipies</h3>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
+                    {% for recipe in best_recipes %}
+                        <!-- Single Best Receipe Area -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="single-best-receipe-area mb-30">
+                                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                                <div class="receipe-content">
+                                    <a href="{% url 'recipe_post' %}?id={{ recipe.id }}">
+                                        <h5>Sushi Easy Receipy</h5>
+                                    </a>
+                                    <a href="{% url 'cook_profile' %}?id={{ recipe.cook.id }}">By {{ recipe.cook.name }}</a>
+                                    <div class="ratings">
+                                        {% for i in 5|all_below %}
+                                            {% if i < recipe.avg_rating %}
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            {% else %}
+                                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-
-            <!-- Single Hero Slide -->
-            <div class="single-hero-slide bg-img" style="background-image: url(img/bg-img/bg7.jpg);">
-                <div class="container h-100">
-                    <div class="row h-100 align-items-center">
-                        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
-                                <h2 data-animation="fadeInUp" data-delay="300ms">Delicios Homemade Burger</h2>
-                                <a href="#" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
+        </section>
+        <!-- ##### Best Receipe Area End ##### -->
+    {% endif %}
+    {% if more_recipes %}
+        <!-- ##### Small Receipe Area Start ##### -->
+        <section class="small-receipe-area">
+            <div class="container">
+                <div class="section-heading">
+                    <h3>Discover More Recepies</h3>
+                </div>
+                <div class="row">
+                    {% for recipe in more_recipes %}
+                        <!-- Small Receipe Area -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="single-small-receipe-area d-flex">
+                                <!-- Receipe Thumb -->
+                                <div class="receipe-thumb">
+                                    <img src="{{ recipe.image.url }}" alt="">
+                                </div>
+                                <!-- Receipe Content -->
+                                <div class="receipe-content">
+                                    <span>{{ recipe.posted_at }}</span>
+                                    <a href="{% url 'recipe_post' %}?id={{ recipe.id }}">
+                                        <h5>{{ recipe.title }}</h5>
+                                    </a>
+                                    <p>{{ recipe.comments.count }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- ##### Hero Area End ##### -->
-
-    <!-- ##### Top Catagory Area Start ##### -->
-    <section class="top-catagory-area section-padding-80-0">
-        <div class="container">
-            <div class="row">
-                <!-- Top Catagory Area -->
-                <div class="col-12 col-lg-6">
-                    <div class="single-top-catagory">
-                        <img src="img/bg-img/bg2.jpg" alt="">
-                        <!-- Content -->
-                        <div class="top-cta-content">
-                            <h3>Strawberry Cake</h3>
-                            <h6>Simple &amp; Delicios</h6>
-                            <a href="receipe-post.html" class="btn delicious-btn">See Full Receipe</a>
-                        </div>
-                    </div>
+        </section>
+        <!-- ##### Small Receipe Area End ##### -->
+    {% endif %}
+    {% if famous_cooks %}
+        <!-- ##### Famous Cook Area Start ##### -->
+        <section class="famous-cooks-area">
+            <div class="container">
+                <div class="section-heading">
+                    <h3>Famous Cooks</h3>
                 </div>
-                <!-- Top Catagory Area -->
-                <div class="col-12 col-lg-6">
-                    <div class="single-top-catagory">
-                        <img src="img/bg-img/bg3.jpg" alt="">
-                        <!-- Content -->
-                        <div class="top-cta-content">
-                            <h3>Chinesse Noodles</h3>
-                            <h6>Simple &amp; Delicios</h6>
-                            <a href="receipe-post.html" class="btn delicious-btn">See Full Receipe</a>
+                <div class="row">
+                    {% for cook in famous_cooks %}
+                        <!-- Famous Cook Area -->
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="single-famous-cook-area d-flex">
+                                <!-- Cook Profile Pic -->
+                                <div class="cook-thumb">
+                                    <img src="{{ cook.profile_picture.url }}" alt="" class="cook-pic">
+                                </div>
+                                <!-- Cook Content -->
+                                <div class="cook-content">
+                                    <a href="{% url 'cook_profile' %}?id={{ cook.id }}">
+                                        <h5>{{ cook.name }}</h5>
+                                    </a>
+                                    <p>{{ cook.followers.count }} followers</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- ##### Top Catagory Area End ##### -->
-
-    <!-- ##### Best Receipe Area Start ##### -->
-    <section class="best-receipe-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-heading">
-                        <h3>The Best Receipies</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="img/bg-img/r1.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Sushi Easy Receipy</h5>
-                            </a>
-                            <a href="profile-page">By Cook</a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="img/bg-img/r2.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Homemade Burger</h5>
-                            </a>
-                            <a href="profile-page">By Cook</a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="img/bg-img/r3.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Vegan Smoothie</h5>
-                            </a>
-                            <a href="profile-page">By Cook</a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="img/bg-img/r4.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Calabasa soup</h5>
-                            </a>
-                            <a href="profile-page">By Cook</a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="img/bg-img/r5.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Homemade Breakfast</h5>
-                            </a>
-                            <a href="profile-page">By Cook</a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Single Best Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-best-receipe-area mb-30">
-                        <img src="img/bg-img/r6.jpg" alt="">
-                        <div class="receipe-content">
-                            <a href="receipe-post.html">
-                                <h5>Healthy Fruit Desert</h5>
-                            </a>
-                            <a href="profile-page">By Cook</a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ##### Best Receipe Area End ##### -->
-    
-    <!-- ##### Small Receipe Area Start ##### -->
-    <section class="small-receipe-area">
-        <div class="container">
-            <div class="section-heading">
-                <h3>Discover More Recepies</h3>
-            </div>
-            <div class="row">
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Homemade italian pasta</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr2.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Baked Bread</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr3.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Scalops on salt</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr4.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Fruits on plate</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr5.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Macaroons</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr6.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Chocolate tart</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr7.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Berry Desert</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr8.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Zucchini Grilled on peper</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="img/bg-img/sr9.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe-post.html">
-                                <h5>Chicken Salad</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ##### Small Receipe Area End ##### -->
-
-    <!-- ##### Famous Cook Area Start ##### -->
-    <section class="famous-cooks-area">
-        <div class="container">
-            <div class="section-heading">
-                <h3>Famous Cooks</h3>
-            </div>
-            <div class="row">
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Famous Cook Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-famous-cook-area d-flex">
-                        <!-- Cook Profile Pic -->
-                        <div class="cook-thumb">
-                            <img src="img/bg-img/sr1.jpg" alt="" class="cook-pic">
-                        </div>
-                        <!-- Cook Content -->
-                        <div class="cook-content">
-                            <a href="profile-page.html">
-                                <h5>Cook 1</h5>
-                            </a>
-                            <p>112 followers</p>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ##### Small Receipe Area End ##### -->
+        </section>
+        <!-- ##### Small Receipe Area End ##### -->
+    {% endif %}
 
     <!-- ##### Quote Subscribe Area Start ##### -->
     <section class="quote-subscribe-adds">
@@ -918,6 +390,19 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- ##### Add Recipe Button #####-->
     <a href="{% url 'add_recipe' %}?next={{ request.path }}" class="add-recipe-btn" title="Add New Recipe">+</a>
 
+    <!-- Alert on unauthentication -->
+    {% if not request.user.is_authenticated %}
+        <div class="alert-container">
+            <div class="alert-box">
+                <h2>Not Logged in !</h2>
+                <p>You are not logged in. Login to access all actions</p>
+                <div class="alert-buttons">
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="alert-btn alert-confirm">Login</a>
+                    <button class="alert-btn alert-leave">Stay Logged out</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     {% endblock %}
     <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->
