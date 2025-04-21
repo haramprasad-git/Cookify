@@ -47,3 +47,6 @@ class Comment(models.Model):
     commented_to = models.ForeignKey(Recipe, related_name='comments', on_delete=models.CASCADE)
     discription = models.TextField()
     rating = models.PositiveIntegerField(validators=[MaxValueValidator(5)])
+
+    def __str__(self):
+        return f"{self.commenter} on {self.commented_to}"

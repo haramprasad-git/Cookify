@@ -23,7 +23,7 @@
 
 </head>
 
-<body>
+<body class="theme-green">
     <!-- Preloader -->
     <div id="preloader">
         <i class="circle-preloader"></i>
@@ -122,7 +122,7 @@
                                 <div class="col-12 col-md-9 col-lg-7 col-xl-6">
                                     <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
                                         <h2 data-animation="fadeInUp" data-delay="300ms">{{ recipe.title }}</h2>
-                                        <a href="{% url 'recipe_post' %}?id={{ recipe.id }}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
+                                        <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                 <div class="top-cta-content">
                                     <h3>{{ recipe.title }}</h3>
                                     <h6>Simple &amp; Delicios</h6>
-                                    <a href="{% url 'recipe_post' %}?id={{ recipe.id }}" class="btn delicious-btn">See Full Receipe</a>
+                                    <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn">See Full Receipe</a>
                                 </div>
                             </div>
                         </div>
@@ -176,10 +176,10 @@
                             <div class="single-best-receipe-area mb-30">
                                 <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
                                 <div class="receipe-content">
-                                    <a href="{% url 'recipe_post' %}?id={{ recipe.id }}">
+                                    <a href="{% url 'recipe_post' recipe.id %}">
                                         <h5>Sushi Easy Receipy</h5>
                                     </a>
-                                    <a href="{% url 'cook_profile' %}?id={{ recipe.cook.id }}">By {{ recipe.cook.name }}</a>
+                                    <a href="{% url 'cook_profile' recipe.cook.id %}">By {{ recipe.cook.name }}</a>
                                     <div class="ratings">
                                         {% for i in 5|all_below %}
                                             {% if i < recipe.avg_rating %}
@@ -217,7 +217,7 @@
                                 <!-- Receipe Content -->
                                 <div class="receipe-content">
                                     <span>{{ recipe.posted_at }}</span>
-                                    <a href="{% url 'recipe_post' %}?id={{ recipe.id }}">
+                                    <a href="{% url 'recipe_post' recipe.id %}">
                                         <h5>{{ recipe.title }}</h5>
                                     </a>
                                     <p>{{ recipe.comments.count }}</p>
@@ -248,7 +248,7 @@
                                 </div>
                                 <!-- Cook Content -->
                                 <div class="cook-content">
-                                    <a href="{% url 'cook_profile' %}?id={{ cook.id }}">
+                                    <a href="{% url 'cook_profile' cook.id %}">
                                         <h5>{{ cook.name }}</h5>
                                     </a>
                                     <p>{{ cook.followers.count }} followers</p>
@@ -391,7 +391,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <a href="{% url 'add_recipe' %}?next={{ request.path }}" class="add-recipe-btn" title="Add New Recipe">+</a>
 
     <!-- Alert on unauthentication -->
-    {% if not request.user.is_authenticated %}
+    {% if not request.user.is_authenticated and not request.session.unauthenticated_alert_shown %}
         <div class="alert-container">
             <div class="alert-box">
                 <h2>Not Logged in !</h2>
@@ -415,6 +415,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{% static 'js/plugins/plugins.js' %}"></script>
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
+    <!-- Font Awesome js -->
+    <script src="https://kit.fontawesome.com/83968cc839.js" crossorigin="anonymous"></script>
     {% block scripts %}
     {% endblock %}
 </body>

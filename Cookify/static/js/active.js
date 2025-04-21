@@ -137,6 +137,8 @@
                 $(this).removeClass("fa-star").addClass("fa-star-o");
             }
         });
+
+        $("#hiddenRating").val(clicked+1);
     });
 
     // :: 12.0 wow Active Code
