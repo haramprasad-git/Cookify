@@ -84,10 +84,10 @@
                             <div class="classynav">
                                 <ul>
                                     <li class="active"><a href="{% url 'home' %}">Home</a></li>
-                                    <li><a href="receipe-post.html">Receipies</a></li>
-                                    <li><a href="receipe-post.html">4 Vegans</a></li>
+                                    <li><a href="{% url 'all_recipes' %}">Receipies</a></li>
+                                    <li><a href="{% url 'all_recipes' %}?veg=1">4 Vegans</a></li>
                                     {% if request.user.is_authenticated %}
-                                        <li><a href="profile-page.html">Profile</a></li>
+                                        <li><a href="{% url 'cook_profile' request.user.cook.id %}">Profile</a></li>
                                         <li><a href="contact.html">Contact</a></li>
                                     {% else %}
                                         <li><a href="{% url 'login' %}">Login</a></li>
@@ -391,7 +391,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <a href="{% url 'add_recipe' %}?next={{ request.path }}" class="add-recipe-btn" title="Add New Recipe">+</a>
 
     <!-- Alert on unauthentication -->
-    {% if not request.user.is_authenticated and not request.session.unauthenticated_alert_shown %}
+    {% if not request.user.is_authenticated %}
         <div class="alert-container">
             <div class="alert-box">
                 <h2>Not Logged in !</h2>

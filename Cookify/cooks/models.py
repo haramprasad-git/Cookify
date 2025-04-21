@@ -17,10 +17,10 @@ class Cook(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True,
                                         validators=[validate_image_type, validate_file_size])
     # Social media profiles
-    facebook = models.URLField(max_length=200, blank=True)
-    instagram = models.URLField(max_length=200, blank=True)
-    x = models.URLField(max_length=200, blank=True)
-    threads = models.URLField(max_length=200, blank=True)
+    facebook = models.CharField(max_length=200, blank=True)
+    instagram = models.CharField(max_length=200, blank=True)
+    x = models.CharField(max_length=200, blank=True)
+    threads = models.CharField(max_length=200, blank=True)
 
     delete_status = models.IntegerField(choices=DELETE_CHOICES, default=1)
     signed_up_at = models.DateTimeField(auto_now_add=True)

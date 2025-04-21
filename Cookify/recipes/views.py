@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.templatetags.static import static
 from django.contrib.auth import logout
@@ -101,10 +102,14 @@ def add_recipe(request):
 def all_recipes(request):
     selected_category = int(request.GET.get('cat', '0'))
     selected_vaganity = int(request.GET.get('veg', '0'))
+    selected_cook = int(request.GET.get('cook', '0'))
     search_query = request.GET.get('search')
 
     recipes = Recipe.objects.all()
 
+    if selected_cook != 0:
+        print("Cook Selected")
+        recipes = recipes.filter(cook__id=selected_cook)
     if selected_category != 0:
         print("Category selected")
         recipes = recipes.filter(categories__id=selected_category)
@@ -125,23 +130,10 @@ def all_recipes(request):
     
 def show_recipe_post(request, id):
     recipe = get_object_or_404(Recipe, id=id)
-    if request.GET.get("action") == "like":
-        # Code to like or dislike recipe
-        if not request.user.is_authenticated:
-            return redirect(f'../../cook/login/?next={request.path}')
-        
-        kitchen_book = request.user.cook.kitchen_book
-        if not kitchen_book.favorite_recipes.contains(recipe):
-            # Like
-            kitchen_book.favorite_recipes.add(recipe)
-        else:
-            # Dislike
-            kitchen_book.favorite_recipes.remove(recipe)
-        
     if request.POST:
         # Code for posting comments
         if not request.user.is_authenticated:
-            return redirect('../../cook/login')
+            return redirect(reverse('login'), kwargs={'next':request.path})
 
         try:
             rating = int(request.POST.get('rating'))
@@ -175,3 +167,15 @@ def show_recipe_post(request, id):
     comments = recipe.comments.order_by('-id')[:num_of_comments]
     comments.is_max = num_of_comments >= recipe.comments.count()
     return render(request, 'recipe/recipe-post.html', {'recipe': recipe, 'comments':comments})
+
+@login_required
+def like_or_dislike(request, target):
+    target_recipe = get_object_or_404(Recipe, id=target)
+    kitchen_book = request.user.cook.kitchen_book
+
+    if not kitchen_book.favorite_recipes.contains(target_recipe):
+        kitchen_book.favorite_recipes.add(target_recipe)
+    else:
+        kitchen_book.favorite_recipes.remove(target_recipe)
+
+    return redirect(reverse('recipe_post', args=[target]))

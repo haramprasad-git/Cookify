@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError, OperationalError
@@ -40,9 +41,14 @@ def login(request):
         else:
             django_login(request, user)
             next_url = request.POST.get('next', '')
-            if (not next_url) or (url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host())):
-                next_url = "../../"
+            if not url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
+                next_url = ""
+                print("Redirecting to home")
             return redirect(f"../../{next_url}")
+    
+def logout(request):
+    django_logout(request)
+    return redirect(reverse('home'))
         
 def signup(request):
     if not request.POST:
@@ -87,5 +93,25 @@ def signup(request):
         except Exception as e:
             return handle_error(request, 'Sorry, Unexpected Error occured !', 'on_signup')
         
-def show_profile(request):
-    return render(request, 'cook/profile-page.html')
+def show_profile(request, id):
+    cook = get_object_or_404(Cook, id=id)    
+    return render(request, 'cook/profile-page.html', {'cook': cook})
+
+@login_required
+def follow_or_unfollow(request, target):
+    if target == request.user.cook.id:
+        # Prevent Self Following
+        messages.info(request, "You can't follow yourself")
+        return redirect(reverse('cook_profile', args=[target]))
+    
+    kitchen_book: KitchenBook = request.user.cook.kitchen_book
+    target_cook = get_object_or_404(Cook, id=target)
+
+    if not kitchen_book.followed_cooks.contains(target_cook):
+        # Follow
+        kitchen_book.followed_cooks.add(target_cook)
+    else:
+        # Unfollow
+        kitchen_book.followed_cooks.remove(target_cook)
+    
+    return redirect(reverse('cook_profile', args=[target]))

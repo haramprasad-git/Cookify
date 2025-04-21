@@ -57,9 +57,9 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <a href="?action=like">
+                            <a href="{% url 'like_or_dislike' recipe.id %}">
                                 {% if request.user.is_authenticated and recipe in request.user.cook.kitchen_book.favorite_recipes.all %}
-                                    <i class="fa fa-heart mt-2 like-btn" title="Like the Recipe"></i>
+                                    <i class="fa fa-heart mt-2 like-btn" title="Dislike the Recipe"></i>
                                 {% else %}
                                     <i class="fa fa-heart-o mt-2 like-btn" title="Like the Recipe"></i>
                                 {% endif %}
