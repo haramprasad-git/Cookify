@@ -6,7 +6,7 @@ def validate_image_type(file):
     try:
         with Image.open(file.path) as img:
             img.verify()
-    except Exception:
+    except Exception as e:
         raise ValidationError('Invalid Image File')
 
 def validate_file_size(file):

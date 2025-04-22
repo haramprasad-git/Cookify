@@ -1,23 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.contrib.auth import authenticate, update_session_auth_hash, login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError, OperationalError
 from django.core.exceptions import ValidationError
-from .models import Cook, KitchenBook
+from .models import Cook, KitchenBook, delete_image_from_file_system
 
 # Helper functions
-def handle_error(request, message:str, show_msg:str):
-    django_logout(request)
+def handle_error(request, message:str, show_msg:str, redirect_view_name='login'):
+    if redirect_view_name == 'login':
+        django_logout(request)
     created_user_id = request.session.pop('created_user_id', None)
     if created_user_id:
         created_user = User.objects.get(pk=created_user_id)
         created_user.delete()
     messages.error(request, message, extra_tags=show_msg)
-    return redirect(reverse('login'))
+    return redirect(reverse(redirect_view_name))
 
 # Create your views here.
 def login(request):
@@ -55,7 +56,7 @@ def signup(request):
         return redirect(login)
     else:   
         name = request.POST.get('name')
-        profile_pic = request.FILES.get('profile_pic')
+        profile_pic = request.FILES.get('profile_pic', 'profile_pictures/default.jpg')
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -67,7 +68,7 @@ def signup(request):
             cook = Cook.objects.create(
                 name=name,
                 core_user=user,
-                profile_picture = profile_pic
+                profile_picture=profile_pic
             )
             cook.full_clean()
             cook.save()
@@ -92,6 +93,85 @@ def signup(request):
         
         except Exception as e:
             return handle_error(request, 'Sorry, Unexpected Error occured !', 'on_signup')
+
+@login_required
+def edit_profile(request):
+    if not request.POST:
+        # Check whether the error message should be shown in the signup panel and add it to the context
+        context = {'show_err_on_password': any('on_password' in message.tags 
+                                            for message in messages.get_messages(request))
+        } 
+        return render(request, 'cook/edit-profile.html', context)
+    
+    name = request.POST.get('name')
+    profile_pic = request.FILES.get('profilePic')
+    remove_profile_pic = request.POST.get('removeProfilePic')
+    instagram = request.POST.get('instagram')
+    facebook = request.POST.get('facebook')
+    x = request.POST.get('x')
+    threads = request.POST.get('threads')
+
+    if not name:
+        return handle_error(request, "Please fill all required fields !", 'on_general', redirect_view_name='edit_profile')
+    
+    try:
+        cook: Cook = request.user.cook
+        if remove_profile_pic:
+            profile_pic = "profile_pictures/default.png"
+            delete_image_from_file_system(None, instance=cook)
+            
+        cook.name = name
+        if profile_pic:
+            cook.profile_picture = profile_pic
+        cook.instagram = instagram
+        cook.facebook = facebook
+        cook.x = x
+        cook.threads = threads
+        cook.save()
+        cook.full_clean()
+        return redirect(reverse('cook_profile', args=[cook.id]))
+    
+    except ValidationError as e:
+        delete_image_from_file_system(None, instance=cook)
+        return handle_error(request, e.messages[0], 'on_general', redirect_view_name='edit_profile')
+    except Exception as e:
+        return handle_error(request, "Sorry, Unexcpected Error occured !", 'on_general', redirect_view_name='edit_profile')
+
+@login_required
+def change_password(request):
+    if not request.POST:
+        return redirect(reverse('edit_profile'))
+    
+    current_password = request.POST.get("currentPassword")
+    new_email = request.POST.get("email")
+    new_password = request.POST.get("newPassword")
+
+    if not (current_password or new_email):
+        return handle_error(request, "Please fill all required fields !", 'on_password', redirect_view_name='edi_profile')
+    
+    user = authenticate(username=request.user.username, password=current_password)
+    if not user:
+        return handle_error(request, "Incorrect password !", 'on_password', redirect_view_name='edit_profile')
+
+    try:
+        user.username = new_email
+        if new_password:
+            user.set_password(new_password)
+        user.save()
+        update_session_auth_hash(request, user)
+        return redirect(reverse('edit_profile'))
+    except IntegrityError:
+        return handle_error(request, "Email is already registered !", 'on_password', redirect_view_name='edit_profile')
+    
+    except ValueError:
+        return handle_error(request, 'Invalid Data !', 'on_password', redirect_view_name='edit_profile')    
+    
+    except OperationalError:
+        return handle_error(request, 'Sorry, Password changing Failed !', 'on_password', redirect_view_name='edit_profile')
+    
+    # except Exception:
+    #     return handle_error(request, 'Sorry, Unexpected error occured !', 'on_password', redirect_view_name='edit_profile')
+    
         
 def show_profile(request, id):
     cook = get_object_or_404(Cook, id=id)    

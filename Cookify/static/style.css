@@ -234,6 +234,23 @@ input[type="file"] {
   display: none;
 }
 
+.form-container div.multiple-inputs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-right: auto;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.form-container div.multiple-inputs div.multiple-inputs-node {
+  margin: 0 20px;
+}
+.form-container div.multiple-inputs div.multiple-inputs-node input {
+  width: auto;
+  height: auto;
+}
+
 label.fake-file-input {
   border: 2px solid #08D929;
   padding: 12px 15px;

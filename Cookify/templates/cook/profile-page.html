@@ -14,7 +14,7 @@
       <div class="profile-page">
         <div class="content">
           <div class="content__cover">
-            <div class="content__avatar" style="background: #ececec url('{{ cook.profile_picture.url }}') center center no-repeat;">
+            <div class="content__avatar" style="background: #ececec url('{{ cook.profile_picture.url }}') center center/cover no-repeat;">
             </div>
             <div class="content__bull"><span></span><span></span><span></span><span></span><span></span>
             </div>
@@ -25,7 +25,7 @@
                 <i class="fa-solid fa-bowl-food"></i>&nbsp;
                 <span>My Recipes</span>
               </a>
-              <a href="" title="Edit Profile">
+              <a href="{% url 'edit_profile' %}" title="Edit Profile">
                 <i class="fa-solid fa-pen-to-square"></i>&nbsp;
                 <span>Edit Profile</span>
               </a>

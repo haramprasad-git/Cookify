@@ -42,9 +42,24 @@ a {
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
+	font-weight: 400;
 }
 
-a.white {
+a:hover {
+	font-weight: 400;
+}
+
+.navigations {
+	margin: 15px 0 25px;
+}
+.navigations a {
+	margin: 0 0 5px;
+}
+.navigations p {
+	margin: 5px 0 0;
+}
+
+.white {
 	color: #FFF;
 	font-weight: 400;
 }
@@ -117,45 +132,53 @@ label.fake-file-input i {
 	}
 }
 
-.sign-in-container {
+.sign-in-container,
+.edit-profile-container {
 	left: 0;
 	width: 50%;
 	z-index: 2;
 }
 @media (max-width: 700px) {
-	.sign-in-container {
+	.sign-in-container,
+	.edit-profile-container {
 		width: 100%;
 	}
 }
 
-.container.right-panel-active .sign-in-container {
+.container.right-panel-active .sign-in-container,
+.container.right-panel-active .edit-profile-container {
 	transform: translateX(100%);
 }
 @media (max-width: 700px) {
-	.container.right-panel-active .sign-in-container {
+	.container.right-panel-active .sign-in-container,
+	.container.right-panel-active .edit-profile-container {
 		transform: translateY(100%);
 	}
 }
-.sign-up-container {
+.sign-up-container,
+.change-password-container {
 	left: 0;
 	width: 50%;
 	opacity: 0;
 	z-index: 1;
 }
 @media (max-width: 700px) {
-	.sign-up-container {
+	.sign-up-container,
+	.change-password-container {
 		width: 100%;
 	}
 }
 
-.container.right-panel-active .sign-up-container {
+.container.right-panel-active .sign-up-container,
+.container.right-panel-active .change-password-container {
 	transform: translateX(100%);
 	opacity: 1;
 	z-index: 5;
 	animation: show 0.6s;
 }
 @media (max-width: 700px) {
-	.container.right-panel-active .sign-up-container {
+	.container.right-panel-active .sign-up-container,
+	.container.right-panel-active .change-password-container {
 		transform: translateY(100%);
 	}
 }

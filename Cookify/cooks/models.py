@@ -30,7 +30,7 @@ class Cook(models.Model):
         return self.name
 
 @receiver(models.signals.post_delete, sender=Cook)
-def delete_image_from_file_system(sender, instance:Cook, **kwargs):
+def delete_image_from_file_system(_sender, instance:Cook, **_kwargs):
     if not instance.profile_picture:
         return None
     if not os.path.isfile(instance.profile_picture.path):

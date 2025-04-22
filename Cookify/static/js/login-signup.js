@@ -1,5 +1,5 @@
-const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
+const rightPanelButton = document.getElementById('rightPanel');
+const leftPanelButton = document.getElementById('leftPanel');
 
 const container = document.getElementById('container');
 
@@ -9,16 +9,10 @@ const costomfileInput = document.getElementsByClassName('fake-profilePic')[0];
 const editForm = document.getElementById('editForm');
 const socialMediaForm = document.getElementById('socialMediaForm');
 
-signUpButton.addEventListener('click', () => {
+rightPanelButton.addEventListener('click', () => {
 	container.classList.add("right-panel-active");
 });
 
-signInButton.addEventListener('click', () => {
+leftPanelButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
-
-if (socialMediaForm != undefined) {
-	editForm.addEventListener('submit', () => {
-		socialMediaForm.submit();
-	});
-}

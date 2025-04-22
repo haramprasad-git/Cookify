@@ -1,4 +1,4 @@
-{% extends '../recipe/index.html' %}
+{% extends 'recipe/index.html' %}
 {% load static %}
 {% block meta-discription %}Login or Signup{% endblock %}
 {% block title %}Login or Signup{% endblock %}
@@ -14,13 +14,11 @@
 				<input type="hidden" name="next" value="{{ request.GET.next }}">
 				<h2>Create Account</h2>
 				<span>Use your email for registration</span>
-				{% if messages %}
+				{% if messages and show_err_on_signup %}
 					{% for message in messages %}
-						{% if show_err_on_signup %}
-							<div class="err-container">
-								<span>{{ message }}</span>
-							</div>
-						{% endif %}
+						<div class="err-container">
+							<span>{{ message }}</span>
+						</div>
 					{% endfor %}
 				{% endif %}
 				<input type="text" name="name" placeholder="Name" />
@@ -40,13 +38,11 @@
 				<input type="hidden" name="next" value="{{ request.GET.next }}">
 				<h1>Log in</h1>
 				<span>Use your account</span>
-				{% if messages %}
+				{% if messages and not show_err_on_signup %}
 					{% for message in messages %}
-						{% if not show_err_on_signup %}
-							<div class="err-container">
-								<span>{{ message }}</span>
-							</div>
-						{% endif %}
+						<div class="err-container">
+							<span>{{ message }}</span>
+						</div>
 					{% endfor %}
 				{% endif %}
 				<input type="email" name="email" placeholder="Email" />
@@ -60,12 +56,15 @@
 				<div class="overlay-panel overlay-left">
 					<h1>Hi, Cooks!</h1>
 					<p>Enter your personal details and start journey with us</p>
-					<a class="white" id="signIn">Already have an Account ? Log In</a>
+					<a class="white" id="leftPanel">Already have an Account ? Log In</a>
 				</div>
 				<div class="overlay-panel overlay-right">
 					<h1>Welcome Back!</h1>
 					<p>To keep connected with us please login with your personal info</p>
-					<a class="white" id="signUp">Don't have an Account ? Sign Up</a>
+					<div class="navigations">
+						<p id="rightPanel">Don't have an account ? Signup</p>
+						<a href="{% url 'home' %}" class="white">Back to Home page</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -74,7 +73,4 @@
 {% block footer %}{% endblock %}
 {% block scripts %}
 	<script src="{% static 'js/login-signup.js' %}"></script>
-	<script src="https://kit.fontawesome.com/83968cc839.js" crossorigin="anonymous"></script>
 {% endblock %}
-</body>
-</html>

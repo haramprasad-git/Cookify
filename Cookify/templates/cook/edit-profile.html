@@ -1,55 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/login-signup.css">
-	<title>Edit Cook Profile</title>
-</head>
-<body>
-	<div class="container" id="container">
-		<div class="form-container sign-up-container">
-			<form action="#" id="editForm">
+{% extends 'recipe/index.html' %}
+{% load static %}
+{% block meta-discription %}Edit Cook Profile{% endblock %}
+{% block title %}Edit Cook Profile{% endblock %}
+{% block styles %}
+	<link rel="stylesheet" href="{% static 'css/login-signup.css' %}">
+{% endblock %}
+{% block header %}{% endblock %}
+{% block main-body %}
+	<div class="container {% if show_err_on_password %}right-panel-active{% endif %}" id="container">
+		<div class="form-container change-password-container">
+			<form action="{% url 'change_password' %}" method="post" id="passwordForm">
+				{% csrf_token %}
 				<h2>Change Email / Password</h2>
 				<span>Verify with your current password</span>
-				<input type="password" placeholder="Current Password" />
-				<input type="email" placeholder="New Email" />
-				<input type="password" placeholder="New Password" />
-				<button type="submit">Change</button>
+				{% if messages and show_err_on_password %}
+					{% for message in messages %}
+						<div class="err-container">
+							<span>{{ message }}</span>
+						</div>
+					{% endfor %}
+				{% endif %}
+				<input type="password" required name="currentPassword" placeholder="Current Password" />
+				<input type="email" required name="email" placeholder="New Email" value="{{ request.user.username }}" />
+				<input type="password" name="newPassword" placeholder="New Password (optional)" />
+				<button type="submit" class="curved-btn">Change</button>
 			</form>
 		</div>
-		<div class="form-container sign-in-container">
-			<form action="#">
+		<div class="form-container edit-profile-container">
+			<form method="post" enctype="multipart/form-data" id="editForm">
+				{% csrf_token %}
 				<h1>Edit Profile</h1>
 				<span>Make Changes to Your Profile Data</span>
-				<input type="text" placeholder="Name" />
-                <input type="file" id="profilePic"/>
-				<label for="profilePic" class="fake-profilePic">
+				{% if messages and not show_err_on_password %}
+					{% for message in messages %}
+						<div class="err-container">
+							<span>{{ message }}</span>
+						</div>
+					{% endfor %}
+				{% endif %}
+				<input type="text" name="name" required placeholder="Name" value="{{ request.user.cook.name }}"/>
+				<input type="file" name="profilePic" id="profilePic"/>
+				<label for="profilePic" class="fake-file-input">
 					<i class="fa fa-folder-open"></i>&nbsp;
-					<span>Click to Change Profile Picture</span>
+					<span>Click to Change Profile Picture (optional)</span>
 				</label>
-				<a href="#" id="signUp">Change Email / Password ?</a>
+				<div class="multiple-inputs">
+					<div class="multiple-inputs-node" style="margin: 0">
+						<input type="checkbox" name="removeProfilePic" id="RemovePic" value="remove">&nbsp;
+						<label for="removePic">Remove Profile Picture</label>
+					</div>
+				</div>
+				<div class="navigations">
+					<p id="rightPanel">Change Email / Password ?</p>
+					<a href="{% url 'cook_profile' request.user.cook.id %}">Back to Profile page</a>
+				</div>
 				<button type="submit" class="curved-btn">Save</button>
-			</form>
 		</div>
 		<div class="overlay-container">
 			<div class="overlay">
 				<div class="overlay-panel overlay-left">
-					<h4 class="white" id="signIn"><i class="fa fa-arrow-left"></i>&nbsp;Back</h4>
+					<h4 class="white" id="leftPanel"><i class="fa-solid fa-arrow-left"></i>&nbsp;Back</h4>
 				</div>
 				<div class="overlay-panel overlay-right">
-					<form action="#" id="socialMediaForm" method="post">
-                        <h2>Add Social Media Accounts</h2>
-                        <input type="text" name="" placeholder="Instagram">
-                        <input type="text" name="" placeholder="Facebook">
-                        <input type="text" name="" placeholder="X">
-                        <input type="text" name="" placeholder="Threads">
-                    </form>
+						<h2 style="color: #fff;">Add Social Media Accounts</h2>
+						<span class="white" style="font-size: 110%;">(optional)</span>
+						<input type="text" name="instagram" placeholder="Instagram" value="{{ request.user.cook.instagram }}">
+						<input type="text" name="facebook" placeholder="Facebook" value="{{ request.user.cook.facebook }}">
+						<input type="text" name="x" placeholder="X" value="{{ request.user.cook.x }}">
+						<input type="text" name="threads" placeholder="Threads" value="{{ request.user.cook.threads }}">
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script src="js/login-signup.js"></script>
-	<script src="https://kit.fontawesome.com/83968cc839.js" crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}
+{% block footer %}{% endblock %}
+{% block scripts %}
+	<script src="{% static 'js/login-signup.js' %}"></script>
+{% endblock %}
