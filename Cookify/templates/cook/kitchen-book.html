@@ -1,252 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'recipe/index.html' %}
+{% load static %}
+{% load veganity_icon %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+{% block meta-discription %}Personal KitchenBook{% endblock %}
+{% block title %}Personal Kitchen Book{% endblock %}
 
-    <!-- Title -->
-    <title>Delicious - Food Blog Template | Receipe Post</title>
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/kitchen-book.css' %}">
+{% endblock %}
 
-    <!-- Favicon -->
-    <link rel="icon" href="img/core-img/favicon.ico">
-
-    <!-- Extra Stylesheet -->
-     <link rel="stylesheet" href="css/kitchen-book.css">
-
-    <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <i class="circle-preloader"></i>
-        <img src="img/core-img/salad.png" alt="">
-    </div>
-
-    <!-- Search Wrapper -->
-    <div class="search-wrapper">
-        <!-- Close Btn -->
-        <div class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></div>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <form action="#" method="post">
-                        <input type="search" name="search" placeholder="Type any keywords...">
-                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ##### Header Area Start ##### -->
-    <header class="header-area">
-
-        <!-- Top Header Area -->
-        <div class="top-header-area">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center justify-content-between"></div>
-            </div>
-        </div>
-
-        <!-- Navbar Area -->
-        <div class="delicious-main-menu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Menu -->
-                    <nav class="classy-navbar justify-content-between" id="deliciousNav">
-
-                        <!-- Logo -->
-                        <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu">
-
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li class="active"><a href="index.html">Home</a></li>
-                                    <li><a href="receipe-post.html">Receipies</a></li>
-                                    <li><a href="receipe-post.html">4 Vegans</a></li>
-                                    <li><a href="receipe-post.html">Profile</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-
-                                <!-- Newsletter Form -->
-                                <div class="search-btn">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </div>
-
-                            </div>
-                            <!-- Nav End -->
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ##### Header Area End ##### -->
-
+{% block main-body %}
     <!-- ##### Kitchen Book Area Start -->
     <main>
-     <div class="container-fluid">
-        <h1 class="heading">Kitchen Book</h1>
-        <div class="row">
-            <!-- Favorite Recipes Column -->
-            <div class="col-sm-6 col-lg-7 favorite-recipes">
-                <h2 class="heading sub-heading">Favorite Recipes</h2>
-                <!-- Loop through favorite recipes -->
-                <div class="row align-items-center recipe-div">
-                    <!-- Image Column -->
-                    <img class="cover-image col-lg-4 col-12" src="img/blog-img/1.jpg" alt="Recipe Image">
-                    <!-- Content Column -->
-                    <div class="col-lg-8 col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Recipe Title 1</h5>
-                            <img src="img/veganity-imgs/veg.png" class="veganity-img" alt="Veg" title="Veg">
-                        </div>
-                        <p class="card-text">Description of Recipe 1.</p>
-                        <a href="#" class="btn btn-success">View Recipe</a>
-                    </div>
-                </div>
-                <div class="row align-items-center recipe-div">
-                    <!-- Image Column -->
-                    <img class="cover-image col-lg-4 col-12" src="img/blog-img/1.jpg" alt="Recipe Image">
-                    <!-- Content Column -->
-                    <div class="col-lg-8 col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Recipe Title 1</h5>
-                            <img src="img/veganity-imgs/veg.png" class="veganity-img" alt="Veg" title="Veg">
-                        </div>
-                        <p class="card-text">Description of Recipe 1.</p>
-                        <a href="#" class="btn btn-success">View Recipe</a>
-                    </div>
-                </div>
-                <div class="row align-items-center recipe-div">
-                    <!-- Image Column -->
-                    <img class="cover-image col-lg-4 col-12" src="img/blog-img/1.jpg" alt="Recipe Image">
-                    <!-- Content Column -->
-                    <div class="col-lg-8 col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Recipe Title 1</h5>
-                            <img src="img/veganity-imgs/veg.png" class="veganity-img" alt="Veg" title="Veg">
-                        </div>
-                        <p class="card-text">Description of Recipe 1.</p>
-                        <a href="#" class="btn btn-success">View Recipe</a>
-                    </div>
-                </div>
-                <div class="row align-items-center recipe-div">
-                    <!-- Image Column -->
-                    <img class="cover-image col-lg-4 col-12" src="img/blog-img/1.jpg" alt="Recipe Image">
-                    <!-- Content Column -->
-                    <div class="col-lg-8 col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Recipe Title 1</h5>
-                            <img src="img/veganity-imgs/veg.png" class="veganity-img" alt="Veg" title="Veg">
-                        </div>
-                        <p class="card-text">Description of Recipe 1.</p>
-                        <a href="#" class="btn btn-success">View Recipe</a>
-                    </div>
-                </div>
-                <div class="row align-items-center recipe-div">
-                    <!-- Image Column -->
-                    <img class="cover-image col-lg-4 col-12" src="img/blog-img/1.jpg" alt="Recipe Image">
-                    <!-- Content Column -->
-                    <div class="col-lg-8 col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Recipe Title 1</h5>
-                            <img src="img/veganity-imgs/veg.png" class="veganity-img" alt="Veg" title="Veg">
-                        </div>
-                        <p class="card-text">Description of Recipe 1.</p>
-                        <a href="#" class="btn btn-success">View Recipe</a>
-                    </div>
-                </div>
-                <!-- Add more recipe cards as needed -->
-            </div>
-    
-            <!-- Followed Cooks Column -->
-            <div class="col-sm-6 col-lg-5 followed-cooks">
-                <h2 class="heading sub-heading">Followed Cooks</h2>
-                <!-- Loop through followed cooks -->
-                <div class="card my-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-4">
-                                <img style="border-radius: 50%;" class="profile-pic" src="https://image.freepik.com/free-photo/friendly-brunette-looking-camera_23-2147774849.jpg" alt="Image Missing !   ">
+        <div class="container-fluid">
+            <h1 class="heading">Kitchen Book</h1>
+            <div class="row" style="min-height: 400px;">
+                <!-- Favorite Recipes Column -->
+                <div class="col-sm-6 col-lg-7 favorite-recipes d-flex flex-column">
+                    <h2 class="heading sub-heading">Favorite Recipes</h2>
+                    {% if not kitchenbook.favorite_recipes.count == 0 %}
+                        {% for recipe in kitchenbook.favorite_recipes.all %}
+                            <div class="row align-items-center recipe-div">
+                                <!-- Image Column -->
+                                <img class="cover-image col-lg-4 col-12" src="{{ recipe.image.url }}" alt="Recipe Image">
+                                <!-- Content Column -->
+                                <div class="col-lg-8 col-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">{{ recipe.title }}</h5>
+                                        <i class="veganity-icon {{ recipe.veganity_status|veganity_icon }}"></i>
+                                    </div>
+                                    <p class="card-text">By {{ recipe.cook.name }}</p>
+                                    <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn">View Recipe</a>
+                                </div>
                             </div>
-                            <div class="col-8">
-                                <h5 class="card-title">Cook Name 1</h5>
-                                <p class="card-text">@Cook 1 username.</p>
-                                <a href="#" class="btn btn-success">View Profile</a>
-                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty_msg m-auto">
+                            <p>You haven't liked any recipe yet !</p>
+                            <a href="{% url 'all_recipes' %}" class="btn btn-success">Check out some recipes</a>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="card my-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-4">
-                                <img style="border-radius: 50%;" class="profile-pic" src="https://image.freepik.com/free-photo/friendly-brunette-looking-camera_23-2147774849.jpg" alt="Image Missing !   ">
+        
+                <!-- Followed Cooks Column -->
+                <div class="col-sm-6 col-lg-5 followed-cooks d-flex flex-column">
+                    <h2 class="heading sub-heading">Followed Cooks</h2>
+                    {% if not kitchenbook.followed_cooks.count == 0 %}
+                        <!-- Loop through followed cooks -->
+                        {% for cook in kitchenbook.followed_cooks.all %}
+                            <div class="card my-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <img style="border-radius: 50%;" class="profile-pic" src="{{ cook.profile_picture.url }}" alt="Image Missing !   ">
+                                        </div>
+                                        <div class="col-8">
+                                            <h5 class="card-title">{{ cook.name }}</h5>
+                                            <p class="card-text">@{{ cook.core_user.username }}</p>
+                                            <a href="{% url 'cook_profile' cook.id %}" class="btn delicious-btn">View Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-8">
-                                <h5 class="card-title">Cook Name 1</h5>
-                                <p class="card-text">@Cook 1 username.</p>
-                                <a href="#" class="btn btn-success">View Profile</a>
-                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty_msg m-auto">
+                            <p>You haven't followed any cooks yet !</p>
+                            <a href="{% url 'home' %}#famousCooks" class="btn btn-success">Check out famous Cooks</a>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="card my-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-4">
-                                <img style="border-radius: 50%;" class="profile-pic" src="https://image.freepik.com/free-photo/friendly-brunette-looking-camera_23-2147774849.jpg" alt="Image Missing !   ">
-                            </div>
-                            <div class="col-8">
-                                <h5 class="card-title">Cook Name 1</h5>
-                                <p class="card-text">@Cook 1 username.</p>
-                                <a href="#" class="btn btn-success">View Profile</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Add more cook cards as needed -->
             </div>
         </div>
-    </div>
     </main>
-     
-     <!-- Bootstrap JS and dependencies -->
+{% endblock %}
+{% block scripts %}
+     <!-- Bootstrap JS and dependencies
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-     
-    <!-- ##### All Javascript Files ##### -->
-    <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
-    <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
-</body>
-</html>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+{% endblock %}

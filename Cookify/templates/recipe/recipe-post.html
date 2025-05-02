@@ -40,7 +40,7 @@
                                 </h6>
                             </div>
                             {% if request.user.is_authenticated and request.user.cook == recipe.cook %}
-                                <h5 class="btn delicious-btn mt-0 mt-4">Edit Recipe</h5>
+                                <a href="{% url 'edit_recipe' recipe.id %}"><h5 class="btn delicious-btn mt-0 mt-4">Edit Recipe</h5></a>
                             {% endif %}
                         </div>
                     </div>

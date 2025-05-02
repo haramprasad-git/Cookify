@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Count, Avg, Value
 from django.db.models.functions import Round, Coalesce
 from django.db import OperationalError
-from .models import Category, Recipe, Comment
+from .models import Category, Recipe, Comment, delete_image_from_file_system
 from cooks.models import Cook
 
 # Helper functions
@@ -98,6 +98,55 @@ def add_recipe(request):
         if not url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
             next_url = "../../"
         return redirect(f"../../{next_url}")
+    
+@login_required
+def edit_recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+    if not recipe.cook == request.user.cook:
+        return redirect(reverse('recipe_post', args=[recipe.pk]))
+    
+    if not request.POST:
+        categories = Category.objects.all()
+        return render(request, 'recipe/edit-recipe.html', {'recipe':recipe, 'categories': categories})
+    else:
+        title = request.POST.get('title')
+        image = request.FILES.get('recipe-image')
+        categories = request.POST.getlist('categories')
+        veganity = request.POST.get('veganity')
+        discription = request.POST.get('discription')
+
+        if not (title and categories and veganity and discription):
+            return handle_error(request, 'Please fill all fields !')
+
+        try:
+            veganity = int(veganity)
+        except ValueError:
+            return handle_error(request, 'Invalid veganity value !')
+        
+        recipe.title = title
+        if image:
+            recipe.image = image
+        recipe.veganity_status = veganity
+        recipe.discription = discription
+
+        try:
+            recipe.save()
+            recipe.full_clean()
+        except ValidationError as err:
+            delete_image_from_file_system(None, instance=recipe)
+            return handle_error(request, err.messages[0])
+        except OperationalError:
+            return handle_error(request, 'Sorry, Failed to edit recipe !')
+        except Exception as e:
+            print(e)
+            return handle_error(request, 'Sorry, Unexpected error occured')
+
+
+        categories = Category.objects.filter(id__in=categories)
+        print(categories)
+        recipe.categories.set(categories)
+
+        return redirect(reverse('recipe_post', args=[recipe.pk]))
 
 def all_recipes(request):
     selected_category = int(request.GET.get('cat', '0'))
@@ -108,16 +157,12 @@ def all_recipes(request):
     recipes = Recipe.objects.all()
 
     if selected_cook != 0:
-        print("Cook Selected")
         recipes = recipes.filter(cook__id=selected_cook)
     if selected_category != 0:
-        print("Category selected")
         recipes = recipes.filter(categories__id=selected_category)
     if selected_vaganity != 0:
-        print("Veganity selected")
         recipes = recipes.filter(veganity_status=selected_vaganity)
     if search_query:
-        print("Query")
         recipes = recipes.filter(title__icontains=search_query)
 
     context = {

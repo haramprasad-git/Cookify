@@ -6,7 +6,8 @@ urlpatterns = [
     path('cook/logout/', views.logout, name='logout'),
     path('cook/add/', views.signup, name='signup'),
     path('cook/edit/', views.edit_profile, name='edit_profile'),
-    path('cook/edit/password', views.change_password, name='change_password'),
+    path('cook/edit/password/', views.change_password, name='change_password'),
     path('cook/profile/<id>/', views.show_profile, name='cook_profile'),
-    path('cook/follow/unfollow/<target>/', views.follow_or_unfollow, name='follow_or_unfollow')
+    path('cook/follow/unfollow/<target>/', views.follow_or_unfollow, name='follow_or_unfollow'),
+    path('cook/kitchenbook/', views.show_kitchen_book, name='kitchen_book')
 ]

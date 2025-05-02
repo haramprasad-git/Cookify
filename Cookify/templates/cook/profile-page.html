@@ -31,7 +31,7 @@
               </a>
             </div>
             <div class="content__actions">
-              <a href="" title="My Kitchen Book">
+              <a href="{% url 'kitchen_book' %}" title="My Kitchen Book">
                 <i class="fa-solid fa-book-open"></i>&nbsp;
                 <span>My Kitchen Book</span>
               </a>
@@ -66,16 +66,28 @@
           </ul>
           <ul class="social_media_accounts content__list">
             {% if cook.instagram %}
-            <li><i class="fa-brands fa-instagram fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@{{ cook.instagram }}</a></i></li>
+            <li>
+              <i class="fa-brands fa-instagram fa-lg" style="color: #1dcc45;"></i>&nbsp;
+              <a href="https://www.instagram.com/{{ cook.instagram }}" target="_blank">@{{ cook.instagram }}</a>
+            </li>
             {% endif %}
             {% if cook.facebook %}
-            <li><i class="fa-brands fa-square-facebook fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@{{ cook.facebook }}</a></i></li>
+            <li>
+              <i class="fa-brands fa-square-facebook fa-lg" style="color: #1dcc45;"></i>&nbsp;
+              <a href="https://www.facebook.com/{{ cook.facebook }}" target="_blank">@{{ cook.facebook }}</a>
+            </li>
             {% endif %}
             {% if cook.x %}
-            <li><i class="fa-brands fa-x-twitter fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@{{ cook.x }}</a></i></li>
+            <li>
+              <i class="fa-brands fa-x-twitter fa-lg" style="color: #1dcc45;"></i>&nbsp;
+              <a href="https://www.x.com/{{ cook.x }}" target="_blank">@{{ cook.x }}</a>
+            </li>
             {% endif %}
             {% if cook.threads %}
-            <li><i class="fa-brands fa-threads fa-lg" style="color: #1dcc45;"></i>&nbsp;<a href="">@{{ cook.threads }}</a></i></li>
+            <li>
+              <i class="fa-brands fa-threads fa-lg" style="color: #1dcc45;"></i>&nbsp;
+              <a href="https://www.threads.net/{{ cook.threads }}" target="_blank">@{{ cook.threads }}</a>
+            </li>
             {% endif %}
           </ul>
         </div>

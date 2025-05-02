@@ -177,7 +177,7 @@
                                 <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
                                 <div class="receipe-content">
                                     <a href="{% url 'recipe_post' recipe.id %}">
-                                        <h5>Sushi Easy Receipy</h5>
+                                        <h5>{{ recipe.title }}</h5>
                                     </a>
                                     <a href="{% url 'cook_profile' recipe.cook.id %}">By {{ recipe.cook.name }}</a>
                                     <div class="ratings">
@@ -232,7 +232,7 @@
     {% endif %}
     {% if famous_cooks %}
         <!-- ##### Famous Cook Area Start ##### -->
-        <section class="famous-cooks-area">
+        <section class="famous-cooks-area" id="famousCooks">
             <div class="container">
                 <div class="section-heading">
                     <h3>Famous Cooks</h3>
@@ -388,7 +388,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </footer>
     <!-- ##### Footer Area Ends ##### -->
     <!-- ##### Add Recipe Button #####-->
-    <a href="{% url 'add_recipe' %}?next={{ request.path }}" class="add-recipe-btn" title="Add New Recipe">+</a>
+    <a href="{% url 'add_recipe' %}?next={{ request.path }}" class="add-recipe-btn" title="Post New Recipe">+</a>
 
     <!-- Alert on unauthentication -->
     {% if not request.user.is_authenticated %}

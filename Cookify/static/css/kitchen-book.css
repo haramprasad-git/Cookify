@@ -26,7 +26,7 @@ div.recipe-div {
         margin-bottom: 15px;
     }
 }
-.veganity-img {
+.veganity-icon {
     width: 30px; /* Adjust size as needed */
     height: 30px;
     border-radius: 5px;
@@ -39,7 +39,7 @@ div.recipe-div {
     left: 50%;
     z-index: 2;
     transform: translate(-50%, 50%);
-    background: #8f6ed5 center center no-repeat;
+    background: #eaeaea center center/cover no-repeat;
     background-size: cover;
     border-radius: 50%;
     box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);

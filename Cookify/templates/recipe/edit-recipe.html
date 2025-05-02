@@ -1,0 +1,54 @@
+{% extends 'recipe/index.html' %}
+{% load static %}
+
+{% block meta-discription %}Add Recipe{% endblock %}
+{% block title %}Add Recipe{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/add-recipe.css' %}">
+{% endblock %}
+{% block main-body %}
+    <form action="" method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+        <h1>Edit Recipe</h1>
+        <span>Update your recipes to keep a fresh flavour</span>
+        {% for message in messages %}
+            <div class="err-container">
+                <span>{{ message }}</span>
+            </div>
+        {% endfor %}
+        <label for="title" {% if not messages %}style="margin-top: 20px;"{% endif %}>Title of Recipe : </label>
+        <input type="text" name="title" id="title" value="{{ recipe.title }}">
+
+        <input type="file" name="recipe-image", id="recipeImage">
+        <label for="recipeImage" class="fake-file-input">
+            <i class="fa fa-folder-open"></i>
+            <span>Click to Change Thumnail</span>
+        </label>
+
+        <label>Select the categories:</label>
+        <div class="multiple-inputs">
+            {% for category in categories %}
+                <div class="multiple-inputs-node">
+                    <input type="checkbox" name="categories" value="{{ category.pk }}" id="{{ category.pk }}" 
+                    {% if category in recipe.categories.all %} checked {% endif %}>
+                    <label for="{{ category.pk }}">{{ category.title }}</label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <label>Select the veganity:</label>
+        <div class="multiple-inputs">
+            {% for value, label in recipe.VEGANITY_CHOICES %}
+                <div class="multiple-inputs-node">
+                    <input type="radio" name="veganity" value="{{ value }}" id="{{ value }}" 
+                    {% if value == recipe.veganity_status %} checked {% endif %}>
+                    <label for="{{ value }}">{{ label }}</label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <textarea type="text" name="discription" placeholder="Discribe the recipe(Use Enter to seperate steps)" >{{ recipe.discription }}</textarea>
+
+        <button type="submit" class="curved-btn" style="width: 100%;">Save</button>
+    </form>
+{% endblock %}

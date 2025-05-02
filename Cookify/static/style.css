@@ -823,6 +823,7 @@ textarea:focus {
   position: relative;
   z-index: 2;
   margin-bottom: 80px;
+  height: 340px;
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms;
   overflow: hidden; }
@@ -949,6 +950,7 @@ textarea:focus {
     padding-right: 20px; }
   .single-famous-cook-area .cook-pic {
     border-radius: 50%;
+    height: 80px;
   }
   .single-small-receipe-area .receipe-content span {
     font-size: 12px;

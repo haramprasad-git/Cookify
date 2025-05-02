@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -122,6 +123,7 @@ def edit_profile(request):
             
         cook.name = name
         if profile_pic:
+            old_profile_picture = cook.profile_picture
             cook.profile_picture = profile_pic
         cook.instagram = instagram
         cook.facebook = facebook
@@ -129,6 +131,8 @@ def edit_profile(request):
         cook.threads = threads
         cook.save()
         cook.full_clean()
+        if profile_pic:
+            os.remove(old_profile_picture)
         return redirect(reverse('cook_profile', args=[cook.id]))
     
     except ValidationError as e:
@@ -195,3 +199,8 @@ def follow_or_unfollow(request, target):
         kitchen_book.followed_cooks.remove(target_cook)
     
     return redirect(reverse('cook_profile', args=[target]))
+
+@login_required
+def show_kitchen_book(request):
+    kitchenbook = request.user.cook.kitchen_book
+    return render(request, 'cook/kitchen-book.html', {'kitchenbook': kitchenbook})
