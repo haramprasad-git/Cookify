@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('ENVIRONMENT') == 'Development'
 
 ALLOWED_HOSTS = ['cookify-production-9c01.up.railway.app', 'https://cookify-production-9c01.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['cookify-production-9c01.up.railway.app', 'https://cookify-production-9c01.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://cookify-production-9c01.up.railway.app']
 
 
 # Application definition
