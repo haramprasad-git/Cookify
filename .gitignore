@@ -3,13 +3,19 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Unwanted images
+extra_images/
+
+# Sass
+.sass-cache/
+
 # Environment
 .env
 .venv/
 *.sqlite3
 
 # Static/media
-/media/
+media/
 staticfiles/
 
 # OS
