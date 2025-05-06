@@ -21,6 +21,7 @@ class Recipe(models.Model):
     VEGANITY_CHOICES = ((1, 'Vegetarian'), (2, 'Non-Vegetarian'), (3, 'Egg Only'))
 
     title = models.CharField(max_length=200)
+    ingredients = models.TextField()
     discription = models.TextField()
     image = models.ImageField(upload_to='recipe_images/', validators=[validate_file_size, validate_image_type])
     categories = models.ManyToManyField(Category, related_name='products') # eg. Dessert, Breakfast, etc.

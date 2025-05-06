@@ -38,8 +38,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form action="#" method="post">
-                        <input type="search" name="search" placeholder="Type any keywords...">
+                    <form action="{% url 'all_recipes' %}" method="get">
+                        <input type="search" name="search" placeholder="Search recipes...">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>
                 </div>
@@ -88,7 +88,6 @@
                                     <li><a href="{% url 'all_recipes' %}?veg=1">4 Vegans</a></li>
                                     {% if request.user.is_authenticated %}
                                         <li><a href="{% url 'cook_profile' request.user.cook.id %}">Profile</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
                                     {% else %}
                                         <li><a href="{% url 'login' %}">Login</a></li>
                                     {% endif %}
@@ -299,7 +298,7 @@
                 <img src="{% static 'img/bg-img/insta1.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -308,7 +307,7 @@
                 <img src="{% static 'img/bg-img/insta2.jpg' %}" s alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -317,7 +316,7 @@
                 <img src="{% static 'img/bg-img/insta3.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -326,7 +325,7 @@
                 <img src="{% static 'img/bg-img/insta4.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -335,7 +334,7 @@
                 <img src="{% static 'img/bg-img/insta5.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -344,7 +343,7 @@
                 <img src="{% static 'img/bg-img/insta6.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -353,7 +352,7 @@
                 <img src="{% static 'img/bg-img/insta7.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>

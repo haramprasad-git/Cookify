@@ -11,6 +11,6 @@ def validate_image_type(file):
 
 def validate_file_size(file):
     '''Allow only images under 5MB'''
-    max_size = 2 * 1024 * 1024
+    max_size = 5 * 1024 * 1024
     if file.size > max_size:
         raise ValidationError('Use Images under 5MB')

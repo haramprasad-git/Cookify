@@ -11,11 +11,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from os.path import join
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load Environment Variables
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -57,7 +60,7 @@ ROOT_URLCONF = 'Cookify.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,15 +78,15 @@ WSGI_APPLICATION = 'Cookify.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+#postgresql://postgres:yEldZThPesWTZIIyYbjpGIlMkdfZzfEk@shortline.proxy.rlwy.net:27916/cookify_db
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cookify_db',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'railway',
+        'HOST': 'shortline.proxy.rlwy.net',
+        'PORT': '27916',
         'USER': 'postgres',
-        'PASSWORD': 'postgres@hara1'
+        'PASSWORD': os.environ.get('DB_PASSWORD')
     }
 }
 
@@ -131,7 +134,7 @@ STATICFILES_DIRS = [
 # Media files
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

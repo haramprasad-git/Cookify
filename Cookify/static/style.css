@@ -395,6 +395,7 @@ textarea:focus {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
+  min-width: 160px;
 }
 
 .curved-btn[type=submit]:active {
@@ -502,17 +503,17 @@ textarea:focus {
 }
 
 .alert-box {
-  width: 367px;
+  width: 450px;
   max-width: 90%;
-  height: 211px;
+  height: 250px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 3px;
   font-family: Arial, Helvetica, sans-serif;
-  padding: 0 20px;
+  padding: 0 35px;
 }
 
 .alert-buttons {
@@ -529,7 +530,7 @@ textarea:focus {
   color: #fff;
   border: none;
   box-shadow: none;
-  border-radius: 5px;
+  border-radius: 2px;
   font-size: 1em;
 }
 

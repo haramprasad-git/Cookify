@@ -57,7 +57,7 @@ def signup(request):
         return redirect(login)
     else:   
         name = request.POST.get('name')
-        profile_pic = request.FILES.get('profile_pic', 'profile_pictures/default.jpg')
+        profile_pic = request.FILES.get('profile_pic', 'profile_pictures/default.png')
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -93,6 +93,7 @@ def signup(request):
             return handle_error(request, 'Sorry, Cook Creation Failed !', 'on_signup')
         
         except Exception as e:
+            print(e)
             return handle_error(request, 'Sorry, Unexpected Error occured !', 'on_signup')
 
 @login_required
@@ -139,6 +140,7 @@ def edit_profile(request):
         delete_image_from_file_system(None, instance=cook)
         return handle_error(request, e.messages[0], 'on_general', redirect_view_name='edit_profile')
     except Exception as e:
+        print(e)
         return handle_error(request, "Sorry, Unexcpected Error occured !", 'on_general', redirect_view_name='edit_profile')
 
 @login_required

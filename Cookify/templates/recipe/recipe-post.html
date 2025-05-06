@@ -31,7 +31,7 @@
                                 <h6>
                                     Categories : 
                                     {% for category in recipe.categories.all %}
-                                        <a href="{% url 'all_recipes' %}?cat={{ category.id }}">{{ category.title }}, </a>
+                                        <a href="{% url 'all_recipes' %}?cat={{ category.id }}" title="{{ category.discription }}">{{ category.title }}, </a>
                                     {% endfor %}
                                 </h6>
                                 <h6>
@@ -78,60 +78,19 @@
                             </div>
                         {% endfor %}
                     </div>
-                    <!-- Ingredients
+                    <!-- Ingredients -->
                     <div class="col-12 col-lg-4">
                         <div class="ingredients">
                             <h4>Ingredients</h4>
-
-                            Custom Checkbox
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">4 Tbsp (57 gr) butter</label>
-                            </div>
-
-                            Custom Checkbox
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                <label class="custom-control-label" for="customCheck2">2 large eggs</label>
-                            </div>
-
-                             Custom Checkbox 
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                <label class="custom-control-label" for="customCheck3">2 yogurt containers granulated sugar</label>
-                            </div>
-
-                             Custom Checkbox 
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                <label class="custom-control-label" for="customCheck4">1 vanilla or plain yogurt, 170g container</label>
-                            </div>
-
-                             Custom Checkbox 
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck5">
-                                <label class="custom-control-label" for="customCheck5">2 yogurt containers unbleached white flour</label>
-                            </div>
-
-                             Custom Checkbox 
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck6">
-                                <label class="custom-control-label" for="customCheck6">1.5 yogurt containers milk</label>
-                            </div>
-
-                             Custom Checkbox 
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck7">
-                                <label class="custom-control-label" for="customCheck7">1/4 tsp cinnamon</label>
-                            </div>
-
-                             Custom Checkbox 
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                <label class="custom-control-label" for="customCheck8">1 cup fresh blueberries </label>
-                            </div>
+                            {% for index,ingredient in recipe.ingredients|divide_steps %}
+                                <!-- Custom Checkbox -->
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck{{ index }}">
+                                    <label class="custom-control-label" for="customCheck{{ index }}">{{ ingredient }}</label>
+                                </div>
+                            {% endfor %}
                         </div>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="row mx-1" id="comments">
                     {% if comments.count > 0 %}

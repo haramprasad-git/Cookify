@@ -64,9 +64,10 @@ def add_recipe(request):
         image = request.FILES.get('recipe-image', None)
         categories = request.POST.getlist('categories')
         veganity = request.POST.get('veganity')
-        discription = request.POST.get('discription')
+        ingredients = request.POST.get('ingredients')
+        discription = request.POST.get('discription').strip('\n')
 
-        if not (title and image and categories and veganity and discription):
+        if not (title and image and categories and veganity and ingredients and discription):
             return handle_error(request, 'Please fill all fields !')
 
         try:
@@ -80,6 +81,7 @@ def add_recipe(request):
                 title=title,
                 image=image,
                 veganity_status=veganity,
+                ingredients=ingredients,
                 discription=discription
             )
             request.session['created_recipe_id'] = recipe.pk
@@ -113,9 +115,10 @@ def edit_recipe(request, id):
         image = request.FILES.get('recipe-image')
         categories = request.POST.getlist('categories')
         veganity = request.POST.get('veganity')
+        ingredients = request.POST.get('ingredients')
         discription = request.POST.get('discription')
 
-        if not (title and categories and veganity and discription):
+        if not (title and categories and veganity and ingredients and discription):
             return handle_error(request, 'Please fill all fields !')
 
         try:
@@ -127,6 +130,7 @@ def edit_recipe(request, id):
         if image:
             recipe.image = image
         recipe.veganity_status = veganity
+        recipe.ingredients = ingredients
         recipe.discription = discription
 
         try:
@@ -143,7 +147,6 @@ def edit_recipe(request, id):
 
 
         categories = Category.objects.filter(id__in=categories)
-        print(categories)
         recipe.categories.set(categories)
 
         return redirect(reverse('recipe_post', args=[recipe.pk]))

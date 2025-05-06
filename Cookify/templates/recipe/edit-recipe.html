@@ -17,7 +17,7 @@
             </div>
         {% endfor %}
         <label for="title" {% if not messages %}style="margin-top: 20px;"{% endif %}>Title of Recipe : </label>
-        <input type="text" name="title" id="title" value="{{ recipe.title }}">
+        <input type="text" required name="title" id="title" value="{{ recipe.title }}">
 
         <input type="file" name="recipe-image", id="recipeImage">
         <label for="recipeImage" class="fake-file-input">
@@ -28,7 +28,7 @@
         <label>Select the categories:</label>
         <div class="multiple-inputs">
             {% for category in categories %}
-                <div class="multiple-inputs-node">
+                <div class="multiple-inputs-node" title="{{ category.discription }}">
                     <input type="checkbox" name="categories" value="{{ category.pk }}" id="{{ category.pk }}" 
                     {% if category in recipe.categories.all %} checked {% endif %}>
                     <label for="{{ category.pk }}">{{ category.title }}</label>
@@ -47,7 +47,9 @@
             {% endfor %}
         </div>
 
-        <textarea type="text" name="discription" placeholder="Discribe the recipe(Use Enter to seperate steps)" >{{ recipe.discription }}</textarea>
+        <textarea name="ingredients" required placeholder="Change ingredients(Use Enter to seperate each)">{{ recipe.ingredients }}</textarea>
+
+        <textarea name="discription" required placeholder="Change discription(Use Enter to seperate steps)" >{{ recipe.discription }}</textarea>
 
         <button type="submit" class="curved-btn" style="width: 100%;">Save</button>
     </form>

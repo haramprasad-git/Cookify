@@ -36,6 +36,7 @@
                         {% endfor %}
                     {% else %}
                         <div class="empty_msg m-auto">
+                            <img src="{% static 'img/core-img/no-recipe.png' %}" alt="No Like Recipes">
                             <p>You haven't liked any recipe yet !</p>
                             <a href="{% url 'all_recipes' %}" class="btn btn-success">Check out some recipes</a>
                         </div>
@@ -65,6 +66,7 @@
                         {% endfor %}
                     {% else %}
                         <div class="empty_msg m-auto">
+                            <img src="{% static 'img/core-img/no-followers.png' %}" alt="No Followers">
                             <p>You haven't followed any cooks yet !</p>
                             <a href="{% url 'home' %}#famousCooks" class="btn btn-success">Check out famous Cooks</a>
                         </div>

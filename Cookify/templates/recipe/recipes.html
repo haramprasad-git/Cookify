@@ -1,5 +1,6 @@
 {% extends 'recipe/index.html' %}
 {% load all_below %}
+{% load veganity_icon %}
 
 {% block meta-discription %}All Recipies{% endblock %}
 {% block title %}Recipes{% endblock %}
@@ -70,6 +71,7 @@
                                 <a href="{% url 'recipe_post' recipe.id %}">
                                     <h5>{{ recipe.title }}</h5>
                                 </a>
+                                <p><i class="fa {{ recipe.veganity_status|veganity_icon }}"></i> {{ recipe.get_veganity_status_display }}</p>
                                 <div class="ratings">
                                     {% for index in 5|all_below %}
                                         {% if index < recipe.avg_rating %}
@@ -78,8 +80,8 @@
                                             <i class="fa fa-star-o" aria-hidden="true"></i>
                                         {% endif %}
                                     {% endfor %}
+                                    <p>{{ recipe.comments.count }} Comments</p>
                                 </div>
-                                <p>{{ recipe.comments.count }} Comments</p>
                             </div>
                         </div>
                     </div>
