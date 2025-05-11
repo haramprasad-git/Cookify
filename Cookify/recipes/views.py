@@ -152,21 +152,16 @@ def edit_recipe(request, id):
         return redirect(reverse('recipe_post', args=[recipe.pk]))
 
 def all_recipes(request):
-    selected_category = int(request.GET.get('cat', '0'))
-    selected_vaganity = int(request.GET.get('veg', '0'))
     selected_cook = int(request.GET.get('cook', '0'))
-    search_query = request.GET.get('search')
-
-    recipes = Recipe.objects.all()
+    selected_veganity = int(request.GET.get('veg', '0'))
+    recipes = None
 
     if selected_cook != 0:
-        recipes = recipes.filter(cook__id=selected_cook)
-    if selected_category != 0:
-        recipes = recipes.filter(categories__id=selected_category)
-    if selected_vaganity != 0:
-        recipes = recipes.filter(veganity_status=selected_vaganity)
-    if search_query:
-        recipes = recipes.filter(title__icontains=search_query)
+        recipes = Recipe.objects.filter(cook__id=selected_cook)
+    elif selected_veganity != 0:
+        recipes = Recipe.objects.filter(veganity_status=selected_veganity)
+    else:
+        recipes = Recipe.objects.all()
 
     context = {
         'breadcrumb_bg': static('img/bg-img/breadcumb3.jpg'),
@@ -227,3 +222,43 @@ def like_or_dislike(request, target):
         kitchen_book.favorite_recipes.remove(target_recipe)
 
     return redirect(reverse('recipe_post', args=[target]))
+
+def error_404(request, exception):
+    context = {
+        'error_code': '404',
+        'head_msg': 'Page not found !',
+        'discription': 'This page does not exists or got removed. Check the URL !',
+        'redirect_msg': 'Redirect to home page',
+        'redirect_view_name': 'home'
+    }
+    return render(request, 'error-page.html', context, status=404)
+
+def error_500(request):
+    context = {
+        'error_code': '500',
+        'head_msg': 'Server Error !',
+        'discription': 'Oops! Something went wrong in the server. We are working on it !',
+        'redirect_msg': '',
+        'redirect_view_name': ''
+    }
+    return render(request, 'error-page.html', context, status=500)
+
+def error_403(request, exception):
+    context = {
+        'error_code': '403',
+        'head_msg': 'Permission Denied !',
+        'discription': "You don't have access to this page. If seems wierd try again !",
+        'redirect_msg': '',
+        'redirect_view_name': ''
+    }
+    return render(request, 'error-page.html', context, status=403)
+
+def error_400(request, exception):
+    context = {
+        'error_code': '400',
+        'head_msg': 'Bad Request !',
+        'discription': "We think that your request may contain malicious things !",
+        'redirect_msg': '',
+        'redirect_view_name': ''
+    }
+    return render(request, 'error-page.html', context, status=403)

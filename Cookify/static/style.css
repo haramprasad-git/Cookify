@@ -488,6 +488,10 @@ textarea:focus {
 	font-size: 13px;
 }
 
+.no-result-msg img {
+    height: 200px;
+}
+
 /* Alert Container */
 .alert-container {
   position: fixed;

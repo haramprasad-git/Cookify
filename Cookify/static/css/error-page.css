@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    background-color: #000;
+}
+img {
+    width: 1567px;
+    min-width: 100vw;
+    position: fixed;
+    top: -380px;
+    right: -200px;
+}
+.overlay {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0));
+    color: #fff;
+    padding-left: 100px;
+}
+.messages {
+    font-family: "Titillium Web", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 18px;
+}
+.messages a {
+    color: #aaa;
+}
+.headings {
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-bottom: 100px;
+}
+.headings h1 {
+    margin-bottom: 0;
+    font-size: 80px;
+}
+.headings h2 {
+    margin-top: 0;
+    font-size: 50px;
+}
+@media (max-width:516px) {
+    img {
+        top: 0;
+        right: -359px;
+    }
+    .overlay {
+        background-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+        padding-left: 10px;
+    }
+    .headings {
+        text-align: center;
+    }
+}

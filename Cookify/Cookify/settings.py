@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('ENVIRONMENT') == 'Development'
 
-ALLOWED_HOSTS = ['cookify-production-9c01.up.railway.app', 'https://cookify-production-9c01.up.railway.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'cookify-production-9c01.up.railway.app', 'https://cookify-production-9c01.up.railway.app']
 CSRF_TRUSTED_ORIGINS = ['https://cookify-production-9c01.up.railway.app']
 
 
@@ -99,7 +99,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_vealidation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',

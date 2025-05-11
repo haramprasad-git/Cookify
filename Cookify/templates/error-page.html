@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ error_code }} Error">
+    <title>{{ head_msg }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/error-page.css' %}">
+</head>
+<body>
+    <img src="{% static 'img/bg-img/knife-on-burger.jpg' %}">
+    <div class="overlay">
+        <div class="headings">
+            <h1>{{ error_code }}</h1>
+            <h2>{{ head_msg }}</h2>
+        </div>
+        <div class="messages ">
+            <p>{{ discription }}</p>
+            {% if redirect_msg != '' and redirect_view_name != '' %}
+                <a href="{% url redirect_view_name %}">{{ redirect_msg }}</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

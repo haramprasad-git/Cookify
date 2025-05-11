@@ -1,6 +1,8 @@
 {% extends 'recipe/index.html' %}
+{% load static %}
 {% load all_below %}
 {% load veganity_icon %}
+{% load join %}
 
 {% block meta-discription %}All Recipies{% endblock %}
 {% block title %}Recipes{% endblock %}
@@ -23,18 +25,18 @@
         <!-- Receipe Post Search -->
         <div class="receipe-post-search mb-80">
             <div class="container">
-                <form method="get">
+                <form id="filterForm">
                     <div class="row">
                         <div class="col-12 col-lg-3">
-                            <select name="cat">
+                            <select id="categorySelect">
                                 <option value="0" selected>All Category</option>
                                 {% for category in categories %}
-                                    <option value="{{ category.id }}">{{ category.title }}</option>
+                                    <option value="{{ category.title }}">{{ category.title }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="veg">
+                            <select id="veganitySelect">
                                 <option value="0" selected>All Veganity</option>
                                 {% for value, label in veganity_choices %}
                                     <option value="{{ value }}">{{ label }}</option>
@@ -42,10 +44,10 @@
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <input type="search" name="search" placeholder="Search Receipies">
+                            <input type="search" id="recipeSearch" placeholder="Search Receipies">
                         </div>
-                        <div class="col-12 col-lg-3 text-right">
-                            <button type="submit" class="curved-btn">Search</button>
+                        <div class="col-12 col-lg-3">
+                            <button type="submit" class="btn delicious-btn">Search</button>
                         </div>
                     </div>
                 </form>
@@ -59,7 +61,7 @@
             <div class="row">
                 {% for recipe in recipes %}
                     <!-- Small Receipe Area -->
-                    <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="col-12 col-sm-6 col-lg-4 recipe-card" data-categories="{{ recipe.categories.all|join:','}}" data-veganity="{{ recipe.veganity_status }}" data-name="{{ recipe.title }}">
                         <div class="single-small-receipe-area d-flex">
                             <!-- Receipe Thumb -->
                             <div class="receipe-thumb">
@@ -86,8 +88,15 @@
                         </div>
                     </div>
                 {% endfor %}
+                <div class="no-result-msg m-auto" style="display: none;">
+                    <img src="{% static 'img/core-img/no-recipe.png' %}" alt="No Recipes">
+                    <p>No recipes found !</p>
+                </div>
             </div>
         </div>
     </section>
     <!-- ##### Small Receipe Area End ##### -->
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'js/recipes.js' %}"></script>
 {% endblock %}

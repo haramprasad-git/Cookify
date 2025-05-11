@@ -18,10 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from recipes.views import home
+
+handler404 = 'recipes.views.error_404'
+handler500 = 'recipes.views.error_500'
+handler403 = 'recipes.views.error_403'
+handler400 = 'recipes.views.error_400'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('cooks.urls')),
-    path('', include('recipes.urls')),
+    path('', home, name='home'),
+    path('cook/', include('cooks.urls')),
+    path('recipe/', include('recipes.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
