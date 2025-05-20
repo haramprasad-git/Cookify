@@ -77,7 +77,7 @@ def signup(request):
             django_login(request, user)
             next_url = request.POST.get('next', '')
             if (not next_url) or (url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host())):
-                next_url = "../../"
+                next_url = ""
             return redirect(f"../../{next_url}")
 
         except IntegrityError:

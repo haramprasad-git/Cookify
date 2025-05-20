@@ -15,7 +15,7 @@ extra_images/
 *.sqlite3
 
 # Static/media
-media/
+/media/
 staticfiles/
 
 # OS
