@@ -167,8 +167,12 @@
     }
 
     // :: 15.0 Alert on unauthentication
+    if (sessionStorage.getItem("show_unauthentication_alert" == "no")) {
+        $('.alert-container').hide();
+    }
     $('.alert-leave').click( (e) => {
         $('.alert-container').hide();
+        sessionStorage.setItem("show_unauthentication_alert", "no")
     });
 })
 (jQuery);

@@ -473,6 +473,15 @@ textarea:focus {
       height: 40px;
       line-height: 39px; } }
 
+.delete-btn {
+  background-color: #e62626;
+  border-left-color: #a60000;
+}
+.delete-btn:hover, .delete-btn:active, .delete-btn:focus {
+  background-color: #a60000;
+  border-left-color: #e62626;
+}
+
 /* Error Container */
 .err-container {
 	border: 1px solid red;

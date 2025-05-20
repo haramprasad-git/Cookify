@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -15,6 +16,7 @@ from cooks.models import Cook
 # Helper functions
 def handle_error(request, message:str, fragment=""):
     created_recipe_id = request.session.pop('created_recipe_id', None)
+    print(created_recipe_id)
     if created_recipe_id:
         created_recipe = Recipe.objects.get(pk=created_recipe_id)
         created_recipe.delete()
@@ -59,53 +61,55 @@ def add_recipe(request):
             'veganity_choices': Recipe.VEGANITY_CHOICES
         }
         return render(request, 'recipe/add_recipe.html', context)
-    else:
-        title = request.POST.get('title')
-        image = request.FILES.get('recipe-image', None)
-        categories = request.POST.getlist('categories')
-        veganity = request.POST.get('veganity')
-        ingredients = request.POST.get('ingredients')
-        discription = request.POST.get('discription').strip('\n')
+    
+    request.session.pop('created_recipe_id', None)
+    title = request.POST.get('title')
+    image = request.FILES.get('recipe-image', None)
+    categories = request.POST.getlist('categories')
+    veganity = request.POST.get('veganity')
+    ingredients = request.POST.get('ingredients')
+    discription = request.POST.get('discription').strip('\n')
 
-        if not (title and image and categories and veganity and ingredients and discription):
-            return handle_error(request, 'Please fill all fields !')
+    if not (title and image and veganity and ingredients and discription):
+        return handle_error(request, 'Please fill all fields !')
 
-        try:
-            veganity = int(veganity)
-        except ValueError:
-            return handle_error(request, 'Invalid veganity value !')
+    try:
+        veganity = int(veganity)
+    except ValueError:
+        return handle_error(request, 'Invalid veganity value !')
 
-        try:
-            recipe = Recipe.objects.create(
-                cook=request.user.cook,
-                title=title,
-                image=image,
-                veganity_status=veganity,
-                ingredients=ingredients,
-                discription=discription
-            )
-            request.session['created_recipe_id'] = recipe.pk
-            recipe.full_clean()
-        except ValidationError as err:
-            return handle_error(request, err.messages[0])
-        except OperationalError:
-            return handle_error(request, 'Sorry, Failed to add recipe !')
-        except Exception:
-            return handle_error(request, 'Sorry, Unexpected error occured')
-        recipe.save()
+    try:
+        recipe = Recipe.objects.create(
+            cook=request.user.cook,
+            title=title,
+            image=image,
+            veganity_status=veganity,
+            ingredients=ingredients,
+            discription=discription
+        )
+        request.session['created_recipe_id'] = recipe.pk
+        print("Id added")
+        recipe.full_clean()
+    except ValidationError as err:
+        return handle_error(request, err.messages[0])
+    except OperationalError:
+        return handle_error(request, 'Sorry, Failed to add recipe !')
+    except Exception:
+        return handle_error(request, 'Sorry, Unexpected error occured')
+    recipe.save()
 
-        categories = Category.objects.filter(id__in=categories)
-        recipe.categories.set(categories)
-        next_url = request.POST.get('next', '')
-        if not url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
-            next_url = "../../"
-        return redirect(f"../../{next_url}")
+    categories = Category.objects.filter(id__in=categories)
+    recipe.categories.set(categories)
+    next_url = request.POST.get('next', '')
+    if not url_has_allowed_host_and_scheme(next_url, allowed_hosts=request.get_host()):
+        next_url = "../../"
+    return redirect(f"../../{next_url}")
     
 @login_required
 def edit_recipe(request, id):
     recipe = get_object_or_404(Recipe, id=id)
     if not recipe.cook == request.user.cook:
-        return redirect(reverse('recipe_post', args=[recipe.pk]))
+        return HttpResponse(status=403)
     
     if not request.POST:
         categories = Category.objects.all()
@@ -118,7 +122,7 @@ def edit_recipe(request, id):
         ingredients = request.POST.get('ingredients')
         discription = request.POST.get('discription')
 
-        if not (title and categories and veganity and ingredients and discription):
+        if not (title and veganity and ingredients and discription):
             return handle_error(request, 'Please fill all fields !')
 
         try:
@@ -150,6 +154,13 @@ def edit_recipe(request, id):
         recipe.categories.set(categories)
 
         return redirect(reverse('recipe_post', args=[recipe.pk]))
+
+def delete_recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+    if (not request.user) or recipe.cook != request.user.cook:
+        return HttpResponse(status=403) # Unautherised access
+    recipe.delete()
+    return redirect(reverse('home'))
 
 def all_recipes(request):
     selected_cook = int(request.GET.get('cook', '0'))

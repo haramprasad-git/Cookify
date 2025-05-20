@@ -39,9 +39,6 @@
                                     <a href="{% url 'all_recipes' %}?veg={{ recipe.veganity_status }}">{{ recipe.get_veganity_status_display }}</a>
                                 </h6>
                             </div>
-                            {% if request.user.is_authenticated and request.user.cook == recipe.cook %}
-                                <a href="{% url 'edit_recipe' recipe.id %}"><h5 class="btn delicious-btn mt-0 mt-4">Edit Recipe</h5></a>
-                            {% endif %}
                         </div>
                     </div>
 
@@ -67,6 +64,17 @@
                         </div>
                     </div>
                 </div>
+
+                {% if request.user.is_authenticated and request.user.cook == recipe.cook %}
+                        <div class="row mb-5">
+                            <div class="col-lg-10">
+                                <a href="{% url 'edit_recipe' recipe.id %}"><h5 class="btn delicious-btn mt-0 mt-4">Edit Recipe</h5></a>
+                            </div>
+                            <div class="col-lg-2">
+                                <a id="remove-recipe-btn" data-target="{% url 'remove_recipe' recipe.id %}"><h5 class="btn delicious-btn mt-0 mt-4 delete-btn">Remove Recipe</h5></a>
+                            </div>
+                        </div>
+                    {% endif %}
 
                 <div class="row">
                     <div class="col-12 col-lg-8">
