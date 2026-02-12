@@ -4,10 +4,9 @@ from PIL import Image
 def validate_image_type(file):
     '''Allow image files only'''
     try:
-        with Image.open(file.path) as img:
+        with Image.open(file) as img:
             img.verify()
-    except Exception as e:
-        print(e)
+    except Exception:
         raise ValidationError('Invalid Image File')
 
 def validate_file_size(file):

@@ -143,7 +143,8 @@ def edit_profile(request):
         cook.save()
         cook.full_clean()
         if profile_pic:
-            os.remove(old_profile_picture.path)
+            if old_profile_picture and "default.png" not in old_profile_picture.name:
+                old_profile_picture.delete(save=False)
         return redirect(reverse('cook_profile', args=[cook.id]))
     
     except ValidationError as e:

@@ -36,11 +36,8 @@ class Recipe(models.Model):
     
 @receiver(models.signals.post_delete, sender=Recipe)
 def delete_image_from_file_system(sender, instance:Recipe, **kwargs):
-    if not instance.image:
-        return None
-    if not os.path.isfile(instance.image.path):
-        return None
-    os.remove(instance.image.path)
+    if instance.image:
+        instance.image.delete(save=False)
 
 # Model for track comments and rating
 class Comment(models.Model):
