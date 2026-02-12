@@ -6,78 +6,81 @@
 {% block title %}Personal Kitchen Book{% endblock %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'css/kitchen-book.css' %}">
+<link rel="stylesheet" href="{% static 'css/kitchen-book.css' %}">
 {% endblock %}
 
 {% block main-body %}
-    <!-- ##### Kitchen Book Area Start -->
-    <main>
-        <div class="container-fluid">
-            <h1 class="heading">Kitchen Book</h1>
-            <div class="row" style="min-height: 400px;">
-                <!-- Favorite Recipes Column -->
-                <div class="col-sm-6 col-lg-7 favorite-recipes d-flex flex-column">
-                    <h2 class="heading sub-heading">Favorite Recipes</h2>
-                    {% if not kitchenbook.favorite_recipes.count == 0 %}
-                        {% for recipe in kitchenbook.favorite_recipes.all %}
-                            <div class="row align-items-center recipe-div">
-                                <!-- Image Column -->
-                                <img class="cover-image col-lg-4 col-12" src="{{ recipe.image.url }}" alt="Recipe Image">
-                                <!-- Content Column -->
-                                <div class="col-lg-8 col-12">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">{{ recipe.title }}</h5>
-                                        <i class="veganity-icon {{ recipe.veganity_status|veganity_icon }}"></i>
-                                    </div>
-                                    <p class="card-text">By {{ recipe.cook.name }}</p>
-                                    <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn">View Recipe</a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="no-result-msg m-auto">
-                            <img src="{% static 'img/core-img/no-recipe.png' %}" alt="No Like Recipes">
-                            <p>You haven't liked any recipe yet !</p>
-                            <a href="{% url 'all_recipes' %}" class="btn btn-success">Check out some recipes</a>
+<!-- ##### Kitchen Book Area Start -->
+<main>
+    <div class="container-fluid">
+        <h1 class="heading">Kitchen Book</h1>
+        <div class="row" style="min-height: 400px;">
+            <!-- Favorite Recipes Column -->
+            <div class="col-sm-6 col-lg-7 favorite-recipes d-flex flex-column">
+                <h2 class="heading sub-heading">Favorite Recipes</h2>
+                {% if not kitchenbook.favorite_recipes.count == 0 %}
+                {% for recipe in kitchenbook.favorite_recipes.all %}
+                <div class="row align-items-center recipe-div">
+                    <!-- Image Column -->
+                    <img class="cover-image col-lg-4 col-12"
+                        src="{% if recipe.image %}{{ recipe.image.url }}{% endif %}" alt="Recipe Image">
+                    <!-- Content Column -->
+                    <div class="col-lg-8 col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">{{ recipe.title }}</h5>
+                            <i class="veganity-icon {{ recipe.veganity_status|veganity_icon }}"></i>
                         </div>
-                    {% endif %}
+                        <p class="card-text">By {{ recipe.cook.name }}</p>
+                        <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn">View Recipe</a>
+                    </div>
                 </div>
-        
-                <!-- Followed Cooks Column -->
-                <div class="col-sm-6 col-lg-5 followed-cooks d-flex flex-column">
-                    <h2 class="heading sub-heading">Followed Cooks</h2>
-                    {% if not kitchenbook.followed_cooks.count == 0 %}
-                        <!-- Loop through followed cooks -->
-                        {% for cook in kitchenbook.followed_cooks.all %}
-                            <div class="card my-3">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <img style="border-radius: 50%;" class="profile-pic" src="{{ cook.profile_picture.url }}" alt="Image Missing !   ">
-                                        </div>
-                                        <div class="col-8">
-                                            <h5 class="card-title">{{ cook.name }}</h5>
-                                            <p class="card-text">@{{ cook.core_user.username }}</p>
-                                            <a href="{% url 'cook_profile' cook.id %}" class="btn delicious-btn">View Profile</a>
-                                        </div>
-                                    </div>
-                                </div>
+                {% endfor %}
+                {% else %}
+                <div class="no-result-msg m-auto">
+                    <img src="{% static 'img/core-img/no-recipe.png' %}" alt="No Like Recipes">
+                    <p>You haven't liked any recipe yet !</p>
+                    <a href="{% url 'all_recipes' %}" class="btn btn-success">Check out some recipes</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Followed Cooks Column -->
+            <div class="col-sm-6 col-lg-5 followed-cooks d-flex flex-column">
+                <h2 class="heading sub-heading">Followed Cooks</h2>
+                {% if not kitchenbook.followed_cooks.count == 0 %}
+                <!-- Loop through followed cooks -->
+                {% for cook in kitchenbook.followed_cooks.all %}
+                <div class="card my-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <img style="border-radius: 50%;" class="profile-pic"
+                                    src="{% if cook.profile_picture %}{{ cook.profile_picture.url }}{% else %}{% static 'img/core-img/default-user.png' %}{% endif %}"
+                                    alt="Image Missing !   ">
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="no-result-msg m-auto">
-                            <img src="{% static 'img/core-img/no-followers.png' %}" alt="No Followers">
-                            <p>You haven't followed any cooks yet !</p>
-                            <a href="{% url 'home' %}#famousCooks" class="btn btn-success">Check out famous Cooks</a>
+                            <div class="col-8">
+                                <h5 class="card-title">{{ cook.name }}</h5>
+                                <p class="card-text">@{{ cook.core_user.username }}</p>
+                                <a href="{% url 'cook_profile' cook.id %}" class="btn delicious-btn">View Profile</a>
+                            </div>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
+                {% endfor %}
+                {% else %}
+                <div class="no-result-msg m-auto">
+                    <img src="{% static 'img/core-img/no-followers.png' %}" alt="No Followers">
+                    <p>You haven't followed any cooks yet !</p>
+                    <a href="{% url 'home' %}#famousCooks" class="btn btn-success">Check out famous Cooks</a>
+                </div>
+                {% endif %}
             </div>
         </div>
-    </main>
+    </div>
+</main>
 {% endblock %}
 {% block scripts %}
-     <!-- Bootstrap JS and dependencies
+<!-- Bootstrap JS and dependencies
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->

@@ -27,8 +27,7 @@ def handle_error(request, message:str, fragment=""):
 def home(request):
     # 4 most liked recipes in the carousel
     carousel_recipes = list(Recipe.objects.annotate(like_count=Count('liked_cooks'))
-                        .order_by('-like_count')
-                        .only('id', 'title', 'image')[:4])
+                        .order_by('-like_count')[:4])
     
     # 8 most rated recipies
     best_recipes = list(Recipe.objects.annotate(avg_rating=Coalesce(Round(Avg('comments__rating')), Value(0.0)))
@@ -36,13 +35,11 @@ def home(request):
     
     # 9 more recipies that are not in best recipes or carousel recipes
     excluding_id = {recipe.id for recipe in best_recipes+carousel_recipes}
-    more_recipes = list(Recipe.objects.exclude(id__in=excluding_id)
-                        .only('id', 'title', 'image', 'posted_at', 'comments')[:9])
+    more_recipes = list(Recipe.objects.exclude(id__in=excluding_id)[:9])
     
     # 9 most followed cooks
     famous_cooks = list(Cook.objects.annotate(followers_count=Count('followers'))
-                        .order_by('-followers_count')[:9]
-                        .only('id', 'name', 'profile_picture', 'followers')[:9])
+                        .order_by('-followers_count')[:9])
 
     context = {
         'carousel_recipes': carousel_recipes,

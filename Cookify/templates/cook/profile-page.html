@@ -5,106 +5,108 @@
 {% block title %}Cook Profile{% endblock %}
 
 {% block styles %}
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/profile-page.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/profile-page.css' %}">
 {% endblock %}
 
 {% block main-body %}
-    <main class="cd__main">
-      <div class="profile-page">
-        <div class="content">
-          <div class="content__cover">
-            <div class="content__avatar" style="background: #ececec url('{{ cook.profile_picture.url }}') center center/cover no-repeat;">
-            </div>
-            <div class="content__bull"><span></span><span></span><span></span><span></span><span></span>
-            </div>
-          </div>
-          {% if request.user.is_authenticated and request.user.cook == cook %}
-            <div class="content__actions">
-              <a href="{% url 'all_recipes' %}?cook={{ cook.id }}" title="My Recipes">
-                <i class="fa-solid fa-bowl-food"></i>&nbsp;
-                <span>My Recipes</span>
-              </a>
-              <a href="{% url 'edit_profile' %}" title="Edit Profile">
-                <i class="fa-solid fa-pen-to-square"></i>&nbsp;
-                <span>Edit Profile</span>
-              </a>
-            </div>
-            <div class="content__actions">
-              <a href="{% url 'kitchen_book' %}" title="My Kitchen Book">
-                <i class="fa-solid fa-book-open"></i>&nbsp;
-                <span>My Kitchen Book</span>
-              </a>
-              <a href="{% url 'logout' %}" title="Logout">
-                <i class="fa-solid fa-right-from-bracket"></i>&nbsp;
-                <span>Logout</span>
-              </a>
-            </div>
+<main class="cd__main">
+  <div class="profile-page">
+    <div class="content">
+      <div class="content__cover">
+        <div class="content__avatar"
+          style="background: #ececec url('{% if cook.profile_picture %}{{ cook.profile_picture.url }}{% else %}{% static 'img/core-img/default-user.png' %}{% endif %}') center center/cover no-repeat;">
+        </div>
+        <div class="content__bull"><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      {% if request.user.is_authenticated and request.user.cook == cook %}
+      <div class="content__actions">
+        <a href="{% url 'all_recipes' %}?cook={{ cook.id }}" title="My Recipes">
+          <i class="fa-solid fa-bowl-food"></i>&nbsp;
+          <span>My Recipes</span>
+        </a>
+        <a href="{% url 'edit_profile' %}" title="Edit Profile">
+          <i class="fa-solid fa-pen-to-square"></i>&nbsp;
+          <span>Edit Profile</span>
+        </a>
+      </div>
+      <div class="content__actions">
+        <a href="{% url 'kitchen_book' %}" title="My Kitchen Book">
+          <i class="fa-solid fa-book-open"></i>&nbsp;
+          <span>My Kitchen Book</span>
+        </a>
+        <a href="{% url 'logout' %}" title="Logout">
+          <i class="fa-solid fa-right-from-bracket"></i>&nbsp;
+          <span>Logout</span>
+        </a>
+      </div>
+      {% else %}
+      <div class="content__actions">
+        <a href="{% url 'all_recipes' %}?cook={{ cook.id }}" title="Recipes by {{ cook.name }}">
+          <i class="fa-solid fa-bowl-food"></i>&nbsp;
+          <span>Recipes</span>
+        </a>
+        <a href="{% url 'follow_or_unfollow' cook.id %}" title="Follow or Unfollow">
+          <i class="fa-solid fa-user"></i>&nbsp;
+          {% if request.user.is_authenticated and cook in request.user.cook.kitchen_book.followed_cooks.all %}
+          <span>Unfollow</span>
           {% else %}
-            <div class="content__actions">
-              <a href="{% url 'all_recipes' %}?cook={{ cook.id }}" title="Recipes by {{ cook.name }}">
-                <i class="fa-solid fa-bowl-food"></i>&nbsp;
-                <span>Recipes</span>
-              </a>
-              <a href="{% url 'follow_or_unfollow' cook.id %}" title="Follow or Unfollow">
-                <i class="fa-solid fa-user"></i>&nbsp;
-                {% if request.user.is_authenticated and cook in request.user.cook.kitchen_book.followed_cooks.all %}
-                  <span>Unfollow</span>
-                {% else %}
-                  <span>Follow</span>
-                {% endif %}
-              </a>
-            </div>
+          <span>Follow</span>
           {% endif %}
-          <div class="content__title">
-            <h1 style="color: rgba(0, 0, 0, 0.8);">{{ cook.name }}</h1><span>{{ cook.core_user.username }}</span>
-          </div>
-          <ul class="content__list">
-            <li><span>{{ cook.followers.count }}</span>Followers</li>
-            <li><span>{{ cook.kitchen_book.followed_cooks.count }}</span>Following</li>
-            <li><span>{{ cook.posts.count }}</span>Recipes Posted</li>
-          </ul>
-          <ul class="social_media_accounts content__list">
-            {% if cook.instagram %}
-            <li>
-              <i class="fa-brands fa-instagram fa-lg" style="color: #1dcc45;"></i>&nbsp;
-              <a href="https://www.instagram.com/{{ cook.instagram }}" target="_blank">@{{ cook.instagram }}</a>
-            </li>
-            {% endif %}
-            {% if cook.facebook %}
-            <li>
-              <i class="fa-brands fa-square-facebook fa-lg" style="color: #1dcc45;"></i>&nbsp;
-              <a href="https://www.facebook.com/{{ cook.facebook }}" target="_blank">@{{ cook.facebook }}</a>
-            </li>
-            {% endif %}
-            {% if cook.x %}
-            <li>
-              <i class="fa-brands fa-x-twitter fa-lg" style="color: #1dcc45;"></i>&nbsp;
-              <a href="https://www.x.com/{{ cook.x }}" target="_blank">@{{ cook.x }}</a>
-            </li>
-            {% endif %}
-            {% if cook.threads %}
-            <li>
-              <i class="fa-brands fa-threads fa-lg" style="color: #1dcc45;"></i>&nbsp;
-              <a href="https://www.threads.net/{{ cook.threads }}" target="_blank">@{{ cook.threads }}</a>
-            </li>
-            {% endif %}
-          </ul>
-        </div>
-        <div class="bg">
-          <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-        </div>
+        </a>
       </div>
-    </main>
-    {% for message in messages %}
-      <div class="alert-container">
-        <div class="alert-box">
-            <p>{{ message }}</p>
-            <div class="alert-buttons">
-                <button class="alert-btn alert-confirm">OK</button>
-            </div>
-        </div>
+      {% endif %}
+      <div class="content__title">
+        <h1 style="color: rgba(0, 0, 0, 0.8);">{{ cook.name }}</h1><span>{{ cook.core_user.username }}</span>
       </div>
-    {% endfor %}
+      <ul class="content__list">
+        <li><span>{{ cook.followers.count }}</span>Followers</li>
+        <li><span>{% if cook.kitchen_book %}{{ cook.kitchen_book.followed_cooks.count }}{% else %}0{% endif
+            %}</span>Following</li>
+        <li><span>{{ cook.posts.count }}</span>Recipes Posted</li>
+      </ul>
+      <ul class="social_media_accounts content__list">
+        {% if cook.instagram %}
+        <li>
+          <i class="fa-brands fa-instagram fa-lg" style="color: #1dcc45;"></i>&nbsp;
+          <a href="https://www.instagram.com/{{ cook.instagram }}" target="_blank">@{{ cook.instagram }}</a>
+        </li>
+        {% endif %}
+        {% if cook.facebook %}
+        <li>
+          <i class="fa-brands fa-square-facebook fa-lg" style="color: #1dcc45;"></i>&nbsp;
+          <a href="https://www.facebook.com/{{ cook.facebook }}" target="_blank">@{{ cook.facebook }}</a>
+        </li>
+        {% endif %}
+        {% if cook.x %}
+        <li>
+          <i class="fa-brands fa-x-twitter fa-lg" style="color: #1dcc45;"></i>&nbsp;
+          <a href="https://www.x.com/{{ cook.x }}" target="_blank">@{{ cook.x }}</a>
+        </li>
+        {% endif %}
+        {% if cook.threads %}
+        <li>
+          <i class="fa-brands fa-threads fa-lg" style="color: #1dcc45;"></i>&nbsp;
+          <a href="https://www.threads.net/{{ cook.threads }}" target="_blank">@{{ cook.threads }}</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="bg">
+      <div><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</main>
+{% for message in messages %}
+<div class="alert-container">
+  <div class="alert-box">
+    <p>{{ message }}</p>
+    <div class="alert-buttons">
+      <button class="alert-btn alert-confirm">OK</button>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endblock %}

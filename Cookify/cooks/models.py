@@ -42,6 +42,11 @@ def delete_image_from_file_system(sender, instance:Cook, **_kwargs):
     except Exception as e:
         print(f"Error deleting profile picture: {e}")
 
+@receiver(models.signals.post_save, sender=Cook)
+def create_kitchen_book(sender, instance, created, **kwargs):
+    if created:
+        KitchenBook.objects.get_or_create(owner=instance)
+
 # Model for users's personal cookbook
 class KitchenBook(models.Model):
     owner = models.OneToOneField(Cook, related_name='kitchen_book', on_delete=models.CASCADE)

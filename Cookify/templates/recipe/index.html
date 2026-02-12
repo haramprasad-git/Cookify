@@ -115,7 +115,7 @@
         <div class="hero-slides owl-carousel">
             {% for recipe in carousel_recipes %}
             <!-- Single Hero Slide -->
-            <div class="single-hero-slide bg-img" style="background-image: url('{{ recipe.image.url}}');">
+            <div class="single-hero-slide bg-img" style="background-image: url('{% if recipe.image %}{{ recipe.image.url }}{% endif %}');">
                 <div class="container h-100">
                     <div class="row h-100 align-items-center">
                         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
@@ -142,7 +142,7 @@
                 <!-- Top Catagory Area -->
                 <div class="col-12 col-lg-6">
                     <div class="single-top-catagory">
-                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                        <img src="{% if recipe.image %}{{ recipe.image.url }}{% endif %}" alt="{{ recipe.title }}">
                         <!-- Content -->
                         <div class="top-cta-content">
                             <h3>{{ recipe.title }}</h3>
@@ -174,7 +174,7 @@
                 <!-- Single Best Receipe Area -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-best-receipe-area mb-30">
-                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                        <img src="{% if recipe.image %}{{ recipe.image.url }}{% endif %}" alt="{{ recipe.title }}">
                         <div class="receipe-content">
                             <a href="{% url 'recipe_post' recipe.id %}">
                                 <h5>{{ recipe.title }}</h5>
@@ -211,7 +211,7 @@
                     <div class="single-small-receipe-area d-flex">
                         <!-- Receipe Thumb -->
                         <div class="receipe-thumb">
-                            <img src="{{ recipe.image.url }}" alt="">
+                            <img src="{% if recipe.image %}{{ recipe.image.url }}{% endif %}" alt="">
                         </div>
                         <!-- Receipe Content -->
                         <div class="receipe-content">
@@ -243,7 +243,7 @@
                     <div class="single-famous-cook-area d-flex">
                         <!-- Cook Profile Pic -->
                         <div class="cook-thumb">
-                            <img src="{{ cook.profile_picture.url }}" alt="" class="cook-pic">
+                            <img src="{% if cook.profile_picture %}{{ cook.profile_picture.url }}{% else %}{% static 'img/core-img/default-user.png' %}{% endif %}" alt="" class="cook-pic">
                         </div>
                         <!-- Cook Content -->
                         <div class="cook-content">

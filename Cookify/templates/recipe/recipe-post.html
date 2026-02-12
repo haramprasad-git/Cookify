@@ -7,190 +7,197 @@
 {% block title %}{{ recipe.title }}{% endblock %}
 
 {% block main-body %}
-    <div class="receipe-post-area">
-        <!-- Receipe Slider -->
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <img src="{{ recipe.image.url }}" alt="">
-                </div>
+<div class="receipe-post-area">
+    <!-- Receipe Slider -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <img src="{% if recipe.image %}{{ recipe.image.url }}{% endif %}" alt="">
             </div>
         </div>
+    </div>
 
-        <!-- Receipe Content Area -->
-        <div class="receipe-content-area">
-            <div class="container">
+    <!-- Receipe Content Area -->
+    <div class="receipe-content-area">
+        <div class="container">
 
-                <div class="row">
-                    <div class="col-12 col-md-8">
-                        <div class="receipe-headline my-5">
-                            <span>Last edited on : {{ recipe.updated_at }}</span>
-                            <h2>{{ recipe.title }}</h2>
-                            <div class="receipe-duration">
-                                <h6>Posted by : <a href="{% url 'cook_profile' recipe.cook.id %}">{{ recipe.cook.name }}</a></h6>
-                                <h6>
-                                    Categories : 
-                                    {% for category in recipe.categories.all %}
-                                        <a href="{% url 'all_recipes' %}?cat={{ category.id }}" title="{{ category.discription }}">{{ category.title }}, </a>
-                                    {% endfor %}
-                                </h6>
-                                <h6>
-                                    <i class="fa {{recipe.veganity_status|veganity_icon }}"></i>
-                                    <a href="{% url 'all_recipes' %}?veg={{ recipe.veganity_status }}">{{ recipe.get_veganity_status_display }}</a>
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-4">
-                        <div class="receipe-ratings text-md-right mb-5 mt-md-5">
-                            <div class="ratings">
-                                <span>{{ recipe.avg_rating }}.0</span>
-                                {% for i in 5|all_below %}
-                                    {% if i < recipe.avg_rating %}
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    {% else %}
-                                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                                    {% endif %}
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <div class="receipe-headline my-5">
+                        <span>Last edited on : {{ recipe.updated_at }}</span>
+                        <h2>{{ recipe.title }}</h2>
+                        <div class="receipe-duration">
+                            <h6>Posted by : <a href="{% url 'cook_profile' recipe.cook.id %}">{{ recipe.cook.name }}</a>
+                            </h6>
+                            <h6>
+                                Categories :
+                                {% for category in recipe.categories.all %}
+                                <a href="{% url 'all_recipes' %}?cat={{ category.id }}"
+                                    title="{{ category.discription }}">{{ category.title }}, </a>
                                 {% endfor %}
-                            </div>
-                            <a href="{% url 'like_or_dislike' recipe.id %}">
-                                {% if request.user.is_authenticated and recipe in request.user.cook.kitchen_book.favorite_recipes.all %}
-                                    <i class="fa fa-heart mt-2 like-btn" title="Dislike the Recipe"></i>
-                                {% else %}
-                                    <i class="fa fa-heart-o mt-2 like-btn" title="Like the Recipe"></i>
-                                {% endif %}
-                            </a>
+                            </h6>
+                            <h6>
+                                <i class="fa {{recipe.veganity_status|veganity_icon }}"></i>
+                                <a href="{% url 'all_recipes' %}?veg={{ recipe.veganity_status }}">{{
+                                    recipe.get_veganity_status_display }}</a>
+                            </h6>
                         </div>
                     </div>
                 </div>
 
-                {% if request.user.is_authenticated and request.user.cook == recipe.cook %}
-                        <div class="row mb-5">
-                            <div class="col-lg-10">
-                                <a href="{% url 'edit_recipe' recipe.id %}"><h5 class="btn delicious-btn mt-0 mt-4">Edit Recipe</h5></a>
-                            </div>
-                            <div class="col-lg-2">
-                                <a id="remove-recipe-btn" data-target="{% url 'remove_recipe' recipe.id %}"><h5 class="btn delicious-btn mt-0 mt-4 delete-btn">Remove Recipe</h5></a>
-                            </div>
+                <div class="col-12 col-md-4">
+                    <div class="receipe-ratings text-md-right mb-5 mt-md-5">
+                        <div class="ratings">
+                            <span>{{ recipe.avg_rating }}.0</span>
+                            {% for i in 5|all_below %}
+                            {% if i < recipe.avg_rating %} <i class="fa fa-star" aria-hidden="true"></i>
+                                {% else %}
+                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                {% endif %}
+                                {% endfor %}
                         </div>
-                    {% endif %}
+                        <a href="{% url 'like_or_dislike' recipe.id %}">
+                            {% if request.user.is_authenticated and recipe in
+                            request.user.cook.kitchen_book.favorite_recipes.all %}
+                            <i class="fa fa-heart mt-2 like-btn" title="Dislike the Recipe"></i>
+                            {% else %}
+                            <i class="fa fa-heart-o mt-2 like-btn" title="Like the Recipe"></i>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-12 col-lg-8">
-                        {% for index, step in recipe.discription|divide_steps %}
-                            <!-- Single Preparation Step -->
-                            <div class="single-preparation-step d-flex">
-                                <h4>{{ index }}.</h4>
-                                <p>{{ step }}</p>
-                            </div>
+            {% if request.user.is_authenticated and request.user.cook == recipe.cook %}
+            <div class="row mb-5">
+                <div class="col-lg-10">
+                    <a href="{% url 'edit_recipe' recipe.id %}">
+                        <h5 class="btn delicious-btn mt-0 mt-4">Edit Recipe</h5>
+                    </a>
+                </div>
+                <div class="col-lg-2">
+                    <a id="remove-recipe-btn" data-target="{% url 'remove_recipe' recipe.id %}">
+                        <h5 class="btn delicious-btn mt-0 mt-4 delete-btn">Remove Recipe</h5>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    {% for index, step in recipe.discription|divide_steps %}
+                    <!-- Single Preparation Step -->
+                    <div class="single-preparation-step d-flex">
+                        <h4>{{ index }}.</h4>
+                        <p>{{ step }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Ingredients -->
+                <div class="col-12 col-lg-4">
+                    <div class="ingredients">
+                        <h4>Ingredients</h4>
+                        {% for index,ingredient in recipe.ingredients|divide_steps %}
+                        <!-- Custom Checkbox -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck{{ index }}">
+                            <label class="custom-control-label" for="customCheck{{ index }}">{{ ingredient }}</label>
+                        </div>
                         {% endfor %}
                     </div>
-                    <!-- Ingredients -->
-                    <div class="col-12 col-lg-4">
-                        <div class="ingredients">
-                            <h4>Ingredients</h4>
-                            {% for index,ingredient in recipe.ingredients|divide_steps %}
-                                <!-- Custom Checkbox -->
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck{{ index }}">
-                                    <label class="custom-control-label" for="customCheck{{ index }}">{{ ingredient }}</label>
-                                </div>
-                            {% endfor %}
-                        </div>
+                </div>
+            </div>
+            <div class="row mx-1" id="comments">
+                {% if comments.count > 0 %}
+                <div class="col-12">
+                    <div class="text-left">
+                        <h3>Comments</h3>
                     </div>
                 </div>
-                <div class="row mx-1" id="comments">
-                    {% if comments.count > 0 %}
-                        <div class="col-12">
-                            <div class="text-left">
-                                <h3>Comments</h3>
+                <div class="col-12 mb-3">
+                    <div class="row">
+                        {% for comment in comments %}
+                        <div class="comment-container col-11 col-sm-5 my-2 mr-2">
+                            <div class="row my-1">
+                                <div class="col-6">
+                                    <span class="commenter text-left">{{ comment.commenter.name }}</span><br>
+                                </div>
+                                <div class="receipe-ratings text-right mb-0">
+                                    <div class="ratings ml-3">
+                                        <span>{{ comment.rating }}.0</span>
+                                        {% for i in 5|all_below %}
+                                        {% if i < comment.rating %} <i class="fa fa-star" aria-hidden="true"></i>
+                                            {% else %}
+                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                            {% endif %}
+                                            {% endfor %}
+                                    </div>
+                                </div>
                             </div>
+                            <p>{{ comment.discription }}</p>
                         </div>
-                        <div class="col-12 mb-3">
+                        {% endfor %}
+                        {% if not comments.is_max %}
+                        <a id="moreComments" class="col-5">More...</a>
+                        {% if comments.count > 4 %}
+                        <a href="{{ request.path }}?cmt=4#comments" class="col-5 text-right">Less...</a>
+                        {% endif %}
+                        {% else %}
+                        {% if comments.count >= 4 %}
+                        <a href="{{ request.path }}?cmt=4#comments" class="col-10">Less...</a>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-12" id="commentForm">
+                    <div class="contact-form-area">
+                        <form method="post">
+                            {% csrf_token %}
                             <div class="row">
-                                {% for comment in comments %}
-                                    <div class="comment-container col-11 col-sm-5 my-2 mr-2">
-                                        <div class="row my-1">
-                                            <div class="col-6">
-                                                <span class="commenter text-left">{{ comment.commenter.name }}</span><br>
-                                            </div>
-                                            <div class="receipe-ratings text-right mb-0">
-                                                <div class="ratings ml-3">
-                                                    <span>{{ comment.rating }}.0</span>
-                                                    {% for i in 5|all_below %}
-                                                        {% if i < comment.rating %}
-                                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                                        {% else %}
-                                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p>{{ comment.discription }}</p>
+                                <div class="col-12 col-md-8">
+                                    <div class="text-left">
+                                        <h5>Rate this Recipe</h5>
                                     </div>
-                                {% endfor %}
-                                {% if not comments.is_max %}
-                                    <a id="moreComments" class="col-5">More...</a>
-                                    {% if comments.count > 4 %}
-                                        <a href="{{ request.path }}?cmt=4#comments" class="col-5 text-right">Less...</a>
-                                    {% endif %}
-                                {% else %}
-                                    {% if comments.count >= 4 %}
-                                        <a href="{{ request.path }}?cmt=4#comments" class="col-10">Less...</a>
-                                    {% endif %}
-                                {% endif %}
+                                </div>
+                                <div class="receipe-ratings mb-0 text-md-right col-12 col-md-4">
+                                    <div class="ratings real-time-rating" title="Rate the Recipe">
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
-                    <div class="col-12" id="commentForm">
-                        <div class="contact-form-area">
-                            <form method="post">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-12 col-md-8">
-                                        <div class="text-left">
-                                            <h5>Rate this Recipe</h5>
-                                        </div>
-                                    </div>
-                                    <div class="receipe-ratings mb-0 text-md-right col-12 col-md-4">
-                                        <div class="ratings real-time-rating" title="Rate the Recipe">
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
+                            {% for message in messages %}
+                            <div class="err-container">
+                                <span>{{ message }}</span>
+                            </div>
+                            {% endfor %}
+                            <input type="hidden" name="rating" id="hiddenRating">
+                            <div class="row">
+                                <div class="col-12">
+                                    <textarea name="message" class="form-control" id="message" cols="30" rows="10"
+                                        placeholder="Comment..."></textarea>
                                 </div>
-                                {% for message in messages %}
-                                    <div class="err-container">
-                                        <span>{{ message }}</span>
-                                    </div>
-                                {% endfor %}
-                                <input type="hidden" name="rating" id="hiddenRating">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Comment..."></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn delicious-btn mb-30" type="submit">Post Comment</button>
-                                    </div>
+                                <div class="col-12">
+                                    <button class="btn delicious-btn mb-30" type="submit">Post Comment</button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 {% block scripts %}
 <script>
     $("#moreComments").on("click", () => {
         new_comment_count = Number("{{ request.GET.cmt }}") + 4;
-        window.location.replace("{{ request.path }}?cmt="+new_comment_count+"#comments");
+        window.location.replace("{{ request.path }}?cmt=" + new_comment_count + "#comments");
     });
 </script>
 {% endblock %}
