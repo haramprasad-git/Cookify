@@ -17,8 +17,10 @@ extra_images/
 *.sqlite3
 
 # Static/media
-/media/
+media/
 staticfiles/
+**/media/
+**/staticfiles/
 
 # OS
 .DS_Store
@@ -26,3 +28,9 @@ staticfiles/
 # IDEs
 .vscode/
 .idea/
+
+# Tests
+test_*.py
+verify_fix.py
+Cookify/test_*.py
+Cookify/verify_fix.py
