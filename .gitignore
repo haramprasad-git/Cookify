@@ -11,6 +11,8 @@ extra_images/
 
 # Environment
 .env
+.env.*
+!.env.example
 .venv/
 *.sqlite3
 

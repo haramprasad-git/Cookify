@@ -64,7 +64,8 @@
                     <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
                         <!-- Logo -->
-                        <a class="nav-brand" href="{% url 'home' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                        <a class="nav-brand" href="{% url 'home' %}"><img src="{% static 'img/core-img/logo.png' %}"
+                                alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -86,9 +87,9 @@
                                     <li><a href="{% url 'all_recipes' %}">Receipies</a></li>
                                     <li><a href="{% url 'all_recipes' %}?veg=1">4 Vegans</a></li>
                                     {% if request.user.is_authenticated %}
-                                        <li><a href="{% url 'cook_profile' request.user.cook.id %}">Profile</a></li>
+                                    <li><a href="{% url 'cook_profile' request.user.cook.id %}">Profile</a></li>
                                     {% else %}
-                                        <li><a href="{% url 'login' %}">Login</a></li>
+                                    <li><a href="{% url 'login' %}">Login</a></li>
                                     {% endif %}
                                 </ul>
 
@@ -109,155 +110,155 @@
     {% endblock %}
     {% block main-body %}
     {% if carousel_recipes %}
-        <!-- ##### Hero Area Start ##### -->
-        <section class="hero-area">
-            <div class="hero-slides owl-carousel">
-                {% for recipe in carousel_recipes %}
-                    <!-- Single Hero Slide -->
-                    <div class="single-hero-slide bg-img" style="background-image: url('{{ recipe.image.url}}');">
-                        <div class="container h-100">
-                            <div class="row h-100 align-items-center">
-                                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                                    <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
-                                        <h2 data-animation="fadeInUp" data-delay="300ms">{{ recipe.title }}</h2>
-                                        <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
-                                    </div>
-                                </div>
+    <!-- ##### Hero Area Start ##### -->
+    <section class="hero-area">
+        <div class="hero-slides owl-carousel">
+            {% for recipe in carousel_recipes %}
+            <!-- Single Hero Slide -->
+            <div class="single-hero-slide bg-img" style="background-image: url('{{ recipe.image.url}}');">
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                                <h2 data-animation="fadeInUp" data-delay="300ms">{{ recipe.title }}</h2>
+                                <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn"
+                                    data-animation="fadeInUp" data-delay="1000ms">See Recipe</a>
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
             </div>
-        </section>
-        <!-- ##### Hero Area End ##### -->
+            {% endfor %}
+        </div>
+    </section>
+    <!-- ##### Hero Area End ##### -->
     {% endif %}
     {% if top_category %}
-        <!-- ##### Top Catagory Area Start ##### -->
-        <section class="top-catagory-area section-padding-80-0">
-            <div class="container">
-                <div class="row">
-                    {% for recipe in top_category %}
-                        <!-- Top Catagory Area -->
-                        <div class="col-12 col-lg-6">
-                            <div class="single-top-catagory">
-                                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-                                <!-- Content -->
-                                <div class="top-cta-content">
-                                    <h3>{{ recipe.title }}</h3>
-                                    <h6>Simple &amp; Delicios</h6>
-                                    <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn">See Full Receipe</a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-        <!-- ##### Top Catagory Area End ##### -->
-    {% endif %}
-    {% if best_recipes %}
-        <!-- ##### Best Receipe Area Start ##### -->
-        <section class="best-receipe-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-heading">
-                            <h3>The Best Receipies</h3>
+    <!-- ##### Top Catagory Area Start ##### -->
+    <section class="top-catagory-area section-padding-80-0">
+        <div class="container">
+            <div class="row">
+                {% for recipe in top_category %}
+                <!-- Top Catagory Area -->
+                <div class="col-12 col-lg-6">
+                    <div class="single-top-catagory">
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                        <!-- Content -->
+                        <div class="top-cta-content">
+                            <h3>{{ recipe.title }}</h3>
+                            <h6>Simple &amp; Delicios</h6>
+                            <a href="{% url 'recipe_post' recipe.id %}" class="btn delicious-btn">See Full Receipe</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    {% for recipe in best_recipes %}
-                        <!-- Single Best Receipe Area -->
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-best-receipe-area mb-30">
-                                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-                                <div class="receipe-content">
-                                    <a href="{% url 'recipe_post' recipe.id %}">
-                                        <h5>{{ recipe.title }}</h5>
-                                    </a>
-                                    <a href="{% url 'cook_profile' recipe.cook.id %}">By {{ recipe.cook.name }}</a>
-                                    <div class="ratings">
-                                        {% for i in 5|all_below %}
-                                            {% if i < recipe.avg_rating %}
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            {% else %}
-                                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Top Catagory Area End ##### -->
+    {% endif %}
+    {% if best_recipes %}
+    <!-- ##### Best Receipe Area Start ##### -->
+    <section class="best-receipe-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <h3>The Best Receipies</h3>
+                    </div>
                 </div>
             </div>
-        </section>
-        <!-- ##### Best Receipe Area End ##### -->
+
+            <div class="row">
+                {% for recipe in best_recipes %}
+                <!-- Single Best Receipe Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-best-receipe-area mb-30">
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                        <div class="receipe-content">
+                            <a href="{% url 'recipe_post' recipe.id %}">
+                                <h5>{{ recipe.title }}</h5>
+                            </a>
+                            <a href="{% url 'cook_profile' recipe.cook.id %}">By {{ recipe.cook.name }}</a>
+                            <div class="ratings">
+                                {% for i in 5|all_below %}
+                                {% if i < recipe.avg_rating %} <i class="fa fa-star" aria-hidden="true"></i>
+                                    {% else %}
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    {% endif %}
+                                    {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Best Receipe Area End ##### -->
     {% endif %}
     {% if more_recipes %}
-        <!-- ##### Small Receipe Area Start ##### -->
-        <section class="small-receipe-area">
-            <div class="container">
-                <div class="section-heading">
-                    <h3>Discover More Recepies</h3>
-                </div>
-                <div class="row">
-                    {% for recipe in more_recipes %}
-                        <!-- Small Receipe Area -->
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-small-receipe-area d-flex">
-                                <!-- Receipe Thumb -->
-                                <div class="receipe-thumb">
-                                    <img src="{{ recipe.image.url }}" alt="">
-                                </div>
-                                <!-- Receipe Content -->
-                                <div class="receipe-content">
-                                    <span>{{ recipe.posted_at }}</span>
-                                    <a href="{% url 'recipe_post' recipe.id %}">
-                                        <h5>{{ recipe.title }}</h5>
-                                    </a>
-                                    <p>{{ recipe.comments.count }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+    <!-- ##### Small Receipe Area Start ##### -->
+    <section class="small-receipe-area">
+        <div class="container">
+            <div class="section-heading">
+                <h3>Discover More Recepies</h3>
             </div>
-        </section>
-        <!-- ##### Small Receipe Area End ##### -->
+            <div class="row">
+                {% for recipe in more_recipes %}
+                <!-- Small Receipe Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-small-receipe-area d-flex">
+                        <!-- Receipe Thumb -->
+                        <div class="receipe-thumb">
+                            <img src="{{ recipe.image.url }}" alt="">
+                        </div>
+                        <!-- Receipe Content -->
+                        <div class="receipe-content">
+                            <span>{{ recipe.posted_at }}</span>
+                            <a href="{% url 'recipe_post' recipe.id %}">
+                                <h5>{{ recipe.title }}</h5>
+                            </a>
+                            <p>{{ recipe.comments.count }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Small Receipe Area End ##### -->
     {% endif %}
     {% if famous_cooks %}
-        <!-- ##### Famous Cook Area Start ##### -->
-        <section class="famous-cooks-area" id="famousCooks">
-            <div class="container">
-                <div class="section-heading">
-                    <h3>Famous Cooks</h3>
-                </div>
-                <div class="row">
-                    {% for cook in famous_cooks %}
-                        <!-- Famous Cook Area -->
-                        <div class="col-12 col-sm-6 col-lg-4">
-                            <div class="single-famous-cook-area d-flex">
-                                <!-- Cook Profile Pic -->
-                                <div class="cook-thumb">
-                                    <img src="{{ cook.profile_picture.url }}" alt="" class="cook-pic">
-                                </div>
-                                <!-- Cook Content -->
-                                <div class="cook-content">
-                                    <a href="{% url 'cook_profile' cook.id %}">
-                                        <h5>{{ cook.name }}</h5>
-                                    </a>
-                                    <p>{{ cook.followers.count }} followers</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+    <!-- ##### Famous Cook Area Start ##### -->
+    <section class="famous-cooks-area" id="famousCooks">
+        <div class="container">
+            <div class="section-heading">
+                <h3>Famous Cooks</h3>
             </div>
-        </section>
-        <!-- ##### Small Receipe Area End ##### -->
+            <div class="row">
+                {% for cook in famous_cooks %}
+                <!-- Famous Cook Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-famous-cook-area d-flex">
+                        <!-- Cook Profile Pic -->
+                        <div class="cook-thumb">
+                            <img src="{{ cook.profile_picture.url }}" alt="" class="cook-pic">
+                        </div>
+                        <!-- Cook Content -->
+                        <div class="cook-content">
+                            <a href="{% url 'cook_profile' cook.id %}">
+                                <h5>{{ cook.name }}</h5>
+                            </a>
+                            <p>{{ cook.followers.count }} followers</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Small Receipe Area End ##### -->
     {% endif %}
 
     <!-- ##### Quote Subscribe Area Start ##### -->
@@ -297,7 +298,8 @@
                 <img src="{% static 'img/bg-img/insta1.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram"
+                            aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -306,7 +308,8 @@
                 <img src="{% static 'img/bg-img/insta2.jpg' %}" s alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram"
+                            aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -315,7 +318,8 @@
                 <img src="{% static 'img/bg-img/insta3.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram"
+                            aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -324,7 +328,8 @@
                 <img src="{% static 'img/bg-img/insta4.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram"
+                            aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -333,7 +338,8 @@
                 <img src="{% static 'img/bg-img/insta5.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram"
+                            aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -342,7 +348,8 @@
                 <img src="{% static 'img/bg-img/insta6.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram"
+                            aria-hidden="true"></i></a>
                 </div>
             </div>
 
@@ -351,7 +358,8 @@
                 <img src="{% static 'img/bg-img/insta7.jpg' %}" alt="">
                 <!-- Icon -->
                 <div class="insta-icon">
-                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://www.instagram.com/clearly._hara/" target="_blank"><i class="fa fa-instagram"
+                            aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -378,8 +386,12 @@
                     </div>
                     <!-- Copywrite -->
                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template
+                        is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                            target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
                 </div>
             </div>
         </div>
@@ -389,17 +401,17 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <a href="{% url 'add_recipe' %}?next={{ request.path }}" class="add-recipe-btn" title="Post New Recipe">+</a>
 
     <!-- Alert on unauthentication -->
-    {% if not request.user.is_authenticated %}
-        <div class="alert-container">
-            <div class="alert-box">
-                <h2>Not Logged in !</h2>
-                <p>You are not logged in. Login to access all actions</p>
-                <div class="alert-buttons">
-                    <a href="{% url 'login' %}?next={{ request.path }}" class="alert-btn alert-confirm">Login</a>
-                    <button class="alert-btn alert-leave">Stay Logged out</button>
-                </div>
+    {% if not request.user.is_authenticated and not request.session.prefer_logged_out %}
+    <div class="alert-container">
+        <div class="alert-box">
+            <h2>Not Logged in !</h2>
+            <p>You are not logged in. Login to access all actions</p>
+            <div class="alert-buttons">
+                <a href="{% url 'login' %}?next={{ request.path }}" class="alert-btn alert-confirm">Login</a>
+                <button class="alert-btn alert-leave">Stay Logged out</button>
             </div>
         </div>
+    </div>
     {% endif %}
     {% endblock %}
     <!-- ##### All Javascript Files ##### -->
@@ -416,6 +428,32 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- Font Awesome js -->
     <script src="https://kit.fontawesome.com/83968cc839.js" crossorigin="anonymous"></script>
     {% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stayLoggedOutBtn = document.querySelector('.alert-leave');
+            if (stayLoggedOutBtn) {
+                stayLoggedOutBtn.addEventListener('click', function () {
+                    fetch("{% url 'prefer_logged_out' %}", {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                const alertContainer = document.querySelector('.alert-container');
+                                if (alertContainer) {
+                                    alertContainer.style.display = 'none';
+                                }
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            }
+        });
+    </script>
     {% endblock %}
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.http import JsonResponse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib.auth import authenticate, update_session_auth_hash, login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
@@ -12,14 +13,23 @@ from .models import Cook, KitchenBook, delete_image_from_file_system
 
 # Helper functions
 def handle_error(request, message:str, show_msg:str, redirect_view_name='login'):
+    created_user_id = request.session.pop('created_user_id', None)
     if redirect_view_name == 'login':
         django_logout(request)
-    created_user_id = request.session.pop('created_user_id', None)
-    if created_user_id:
-        created_user = User.objects.get(pk=created_user_id)
-        created_user.delete()
+    
+        if created_user_id:
+            try:
+                created_user = User.objects.get(pk=created_user_id)
+                created_user.delete()
+            except User.DoesNotExist:
+                pass
+            
     messages.error(request, message, extra_tags=show_msg)
     return redirect(reverse(redirect_view_name))
+
+def prefer_logged_out(request):
+    request.session['prefer_logged_out'] = True
+    return JsonResponse({'status': 'success'})
 
 # Create your views here.
 def login(request):
@@ -133,7 +143,7 @@ def edit_profile(request):
         cook.save()
         cook.full_clean()
         if profile_pic:
-            os.remove(old_profile_picture)
+            os.remove(old_profile_picture.path)
         return redirect(reverse('cook_profile', args=[cook.id]))
     
     except ValidationError as e:

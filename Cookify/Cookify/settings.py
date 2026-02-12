@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from dotenv import load_dotenv
 from pathlib import Path
 import os
-from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,8 +30,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('ENVIRONMENT') == 'Development'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'cookify-production-9c01.up.railway.app', 'https://cookify-production-9c01.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['https://cookify-production-9c01.up.railway.app']
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1').split(',')
 
 
 # Application definition
@@ -42,8 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary',
-    'cloudinary_storage',
     'recipes',
     'cooks',
 ]
@@ -83,16 +83,17 @@ WSGI_APPLICATION = 'Cookify.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 #postgresql://postgres:yEldZThPesWTZIIyYbjpGIlMkdfZzfEk@shortline.proxy.rlwy.net:27916/cookify_db
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE'),
-        'HOST': os.environ.get('PGHOST'),
-        'PORT': os.environ.get('PGPORT'),
-        'USER': os.environ.get('PGUSER'),
-        'PASSWORD': os.environ.get('PGPASSWORD')
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    }
 
 
 # Password validation
@@ -130,31 +131,37 @@ LOGIN_URL = '/cook/login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# Whitenoise Static configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# Cloudinary media configuration
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUD_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUD_API_SECRET'),
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "access_key": os.environ.get("AWS_ACCESS_KEY_ID"),
+            "secret_key": os.environ.get("AWS_SECRET_ACCESS_KEY"),
+            "bucket_name": os.environ.get("AWS_STORAGE_BUCKET_NAME"),
+            "endpoint_url": os.environ.get("AWS_S3_ENDPOINT_URL"),
+            "region_name": os.environ.get("AWS_S3_REGION_NAME"),
+            "default_acl": "public-read",
+            "querystring_auth": False,
+            "object_parameters": {
+                "CacheControl": "max-age=86400",
+            },
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 }
-
-# Ensure all Cloudinary environment variables are set
-if not all(CLOUDINARY_STORAGE.values()):
-    raise Exception("Cloudinary environment variables are not set properly.")
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-# MEDIA_URL = 'media/'
-# if DEBUG:
-#     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-# else:
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

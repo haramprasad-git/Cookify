@@ -6,7 +6,7 @@ filterForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const selectedCategory = document.getElementById("categorySelect").value;
     const selectedVeganity = document.getElementById("veganitySelect").value;
-    const searchQuery = document.getElementById("recipeSearch").value;
+    const searchQuery = document.getElementById("recipeSearch").value.toLowerCase();
     let hidden_recipes_count = 0;
     console.log("Count before: ", hidden_recipes_count)
     for (let i = 0; i < recipeCards.length; i++) {
@@ -17,12 +17,13 @@ filterForm.addEventListener("submit", (event) => {
             hidden_recipes_count++;
             continue;
         }
-        if (selectedVeganity !== "0" && card.dataset.veganity !== selectedVeganity ) {
+        if (selectedVeganity !== "0" && card.dataset.veganity !== selectedVeganity) {
             card.style.display = "none";
             hidden_recipes_count++;
             continue;
         }
-        if (searchQuery !== "" && !(card.dataset.name.includes(searchQuery))) {
+        console.log(card.dataset.name);
+        if (searchQuery !== "" && !(card.dataset.name.toLowerCase().includes(searchQuery))) {
             card.style.display = "none";
             hidden_recipes_count++;
             continue;

@@ -9,5 +9,6 @@ urlpatterns = [
     path('edit/password/', views.change_password, name='change_password'),
     path('profile/<id>/', views.show_profile, name='cook_profile'),
     path('follow/unfollow/<target>/', views.follow_or_unfollow, name='follow_or_unfollow'),
-    path('kitchenbook/', views.show_kitchen_book, name='kitchen_book')
+    path('kitchenbook/', views.show_kitchen_book, name='kitchen_book'),
+    path('prefer-logged-out/', views.prefer_logged_out, name='prefer_logged_out')
 ]
