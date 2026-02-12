@@ -1,1 +1,1 @@
-web: gunicorn Cookify.wsgi:application
+web: gunicorn --chdir Cookify Cookify.wsgi:application
