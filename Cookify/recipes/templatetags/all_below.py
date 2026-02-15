@@ -4,4 +4,7 @@ register = template.Library()
 
 @register.filter(name='all_below')
 def all_below(stop):
-    return range(stop)
+    try:
+        return range(int(stop))
+    except (ValueError, TypeError):
+        return []
