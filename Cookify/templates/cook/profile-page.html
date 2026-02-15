@@ -15,7 +15,7 @@
     <div class="content">
       <div class="content__cover">
         <div class="content__avatar"
-          style="background: #ececec url('{% if cook.profile_picture %}{{ cook.profile_picture.url }}{% else %}{% static 'img/core-img/default-user.png' %}{% endif %}') center center/cover no-repeat;">
+          style="background: #ececec url('{{ cook.profile_picture.url }}') center center/cover no-repeat;">
         </div>
         <div class="content__bull"><span></span><span></span><span></span><span></span><span></span>
         </div>

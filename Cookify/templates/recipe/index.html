@@ -115,7 +115,8 @@
         <div class="hero-slides owl-carousel">
             {% for recipe in carousel_recipes %}
             <!-- Single Hero Slide -->
-            <div class="single-hero-slide bg-img" style="background-image: url('{% if recipe.image %}{{ recipe.image.url }}{% endif %}');">
+            <div class="single-hero-slide bg-img"
+                style="background-image: url('{% if recipe.image %}{{ recipe.image.url }}{% endif %}');">
                 <div class="container h-100">
                     <div class="row h-100 align-items-center">
                         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
@@ -243,7 +244,7 @@
                     <div class="single-famous-cook-area d-flex">
                         <!-- Cook Profile Pic -->
                         <div class="cook-thumb">
-                            <img src="{% if cook.profile_picture %}{{ cook.profile_picture.url }}{% else %}{% static 'img/core-img/default-user.png' %}{% endif %}" alt="" class="cook-pic">
+                            <img src="{{ cook.profile_picture.url }}" alt="" class="cook-pic">
                         </div>
                         <!-- Cook Content -->
                         <div class="cook-content">
